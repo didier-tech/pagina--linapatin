@@ -1,0 +1,146 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Admin - Editor de Portada{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>🎨 Editor Maestro de Portada</h1>
+    <p>Crea y organiza los banners de la página principal.</p>
+</div>
+
+<div class="noticias-grid"> <div class="form-noticia card-admin">
+        <h2>✨ Nuevo Banner</h2>
+        <form method="POST" action="/admin/hero/create" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Título (Opcional)</label>
+                <input type="text" name="title" id="inputTitle" placeholder="Ej: Inscripciones Abiertas" oninput="updatePreview()">
+            </div>
+
+            <div class="form-group">
+                <label>Subtítulo (Opcional)</label>
+                <textarea name="subtitle" id="inputSubtitle" rows="3" placeholder="Descripción breve..." oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Imagen de Fondo</label>
+                <div class="upload-container" id="drop-area">
+                    <p>📸 Click para subir foto</p>
+                    <input type="file" name="image" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ajustes de Diseño</label>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <input type="color" name="text_color" id="inputColor" value="#ffffff" oninput="updatePreview()" title="Color de letra">
+                    <input type="range" name="font_size" id="inputSize" min="20" max="80" value="45" oninput="updatePreview()">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <select name="text_align" id="inputAlign" onchange="updatePreview()">
+                        <option value="center">Centrado</option>
+                        <option value="flex-start">Izquierda</option>
+                        <option value="flex-end">Derecha</option>
+                    </select>
+                    <select name="content_valign" id="inputValign" onchange="updatePreview()">
+                        <option value="center">Medio</option>
+                        <option value="flex-start">Arriba</option>
+                        <option value="flex-end">Abajo</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-publish">🚀 Publicar Banner</button>
+        </form>
+    </div>
+
+    <div class="lista-noticias">
+        <h2>👁️ Vista Previa</h2>
+        <div class="hero-live-preview" id="previewCanvas">
+            <div class="hero-overlay" id="previewOverlay">
+                <div class="hero-text-box" id="previewTextBox">
+                    <h2 id="previewTitle"></h2>
+                    <p id="previewSubtitle"></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 30px;">📚 Banners Activos</h2>
+        {% for h in heroes %}
+        <div class="news-card shadow-sm">
+            <div class="news-card-content">
+                <img src="{{ url_for('static', filename='uploads/hero/' ~ h.image) }}" class="news-thumb">
+                <div class="news-details">
+                    <h3>{{ h.title if h.title else 'Sin título' }}</h3>
+                    <div class="news-actions">
+                        <a href="/admin/hero/move/{{ h.id }}/up" class="btn-edit" style="background: #eef;">⬆️</a>
+                        <a href="/admin/hero/move/{{ h.id }}/down" class="btn-edit" style="background: #eef;">⬇️</a>
+                        <a href="/admin/hero/edit/{{ h.id }}" class="btn-edit">✏️ Editar</a>
+                        <a href="/admin/hero/delete/{{ h.id }}" class="btn-delete" onclick="return confirm('¿Borrar?')">🗑️</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* REUTILIZACIÓN DE TU ESTILO DE NOTICIAS */
+    .noticias-grid { display: grid; grid-template-columns: 400px minmax(300px, 600px); gap: 30px; justify-content: center; margin-top: 20px; }
+    .card-admin { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 8px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+    
+    .upload-container { border: 2px dashed #007bff; background: #f8fbff; padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; }
+    #fileElem { display: none; }
+
+    .hero-live-preview { width: 100%; aspect-ratio: 16/9; background: #333; background-size: cover; background-position: center; border-radius: 12px; overflow: hidden; position: relative; }
+    .hero-overlay { width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; padding: 30px; box-sizing: border-box; }
+    .hero-text-box h2 { margin: 0; line-height: 1.1; font-weight: bold; }
+
+    .news-card { background: white; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+    .news-card-content { display: flex; gap: 15px; padding: 10px; align-items: center; }
+    .news-thumb { width: 80px; height: 60px; object-fit: cover; border-radius: 6px; }
+    .news-actions { display: flex; gap: 5px; margin-top: 5px; }
+    .news-actions a { text-decoration: none; padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+
+    .btn-publish { background: #28a745; color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .btn-edit { background: #fff3cd; color: #856404; }
+    .btn-delete { background: #f8d7da; color: #721c24; }
+
+    @media (max-width: 1000px) { .noticias-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+    function updatePreview() {
+        const title = document.getElementById('inputTitle').value;
+        const subtitle = document.getElementById('inputSubtitle').value;
+        const color = document.getElementById('inputColor').value;
+        const size = document.getElementById('inputSize').value;
+        const align = document.getElementById('inputAlign').value;
+        const valign = document.getElementById('inputValign').value;
+
+        document.getElementById('previewTitle').innerText = title;
+        document.getElementById('previewSubtitle').innerText = subtitle;
+
+        const textBox = document.getElementById('previewTextBox');
+        const overlay = document.getElementById('previewOverlay');
+        const titleEl = document.getElementById('previewTitle');
+
+        titleEl.style.color = color;
+        titleEl.style.fontSize = size + "px";
+        document.getElementById('previewSubtitle').style.color = color;
+        overlay.style.justifyContent = align;
+        overlay.style.alignItems = valign;
+        textBox.style.textAlign = align === 'center' ? 'center' : (align === 'flex-start' ? 'left' : 'right');
+    }
+    function handleFiles(files) {
+        const reader = new FileReader();
+        reader.onloadend = () => document.getElementById('previewCanvas').style.backgroundImage = `url(${reader.result})`;
+        if(files[0]) reader.readAsDataURL(files[0]);
+    }
+    document.getElementById('drop-area').onclick = () => document.getElementById('fileElem').click();
+    updatePreview();
+</script>
+{% endblock %}

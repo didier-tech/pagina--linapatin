@@ -1,0 +1,68 @@
+{
+    "admin": {
+        "usuario": "admin",
+        "nombre": "Administrador",
+        "rol": "admin",
+        "password": "scrypt:32768:8:1$tIqmsEVxfdT7eGMw$a4ca19b401610774a39a6a9ee376470730fe9f439afc66357fd76a0d0e2fff23e327cb2c7e1720b9f48bd778dbbf5914db370c61e7c3db3b0510838cd6166503"
+    },
+    "patingaleras": {
+        "password": "scrypt:32768:8:1$aibBUEyEr1edbVfr$e41b67dfe7883ba25d81df8df6f0934d54604c482c39a9e4f16452f0754d3820568a39fd05d9524db4b0c7094e8d28ded0165fc2b8bf7076aa9c97270a35c91f",
+        "rol": "club",
+        "club_id": "1770752467"
+    },
+    "skatersdelsur": {
+        "password": "scrypt:32768:8:1$9VvNm6OIXdcE9bpr$8e6c64c35f1b6ea0ea3b8bb0baa32632a435300047bb0fadaf2159401db21208e41f92f13611e7e7c174aa8f3fc706bd6c6f6c6e4fc2d3b8910c0bac26c3c168",
+        "rol": "club",
+        "club_id": "1770752475"
+    },
+    "asesdelpatin": {
+        "password": "scrypt:32768:8:1$dgj2MsZP7EVhClEX$6c9e7728297d982b1b12aead6ffe6afec6db5bf7238d553b63342d38b2157202ff452e0e29fe97eba958dfda660a586f8692276662856f0551c158a442acacca",
+        "rol": "club",
+        "club_id": "1770752481"
+    },
+    "asesdelpatinelite": {
+        "password": "scrypt:32768:8:1$kYa00VS1rSx7mqQ5$048bb522b63a12467c60e99ae04306512239eb39d258777d9e0344887ba6fe0e5b82684eead0ef380830d93fcf7812e9032a8f3a1cace8c6c51ba20126108515",
+        "rol": "club",
+        "club_id": "1770752499"
+    },
+    "deportivopasto": {
+        "password": "scrypt:32768:8:1$z1eIi2GRAmlKsjw1$53648df64057895c2a85196db89cfbc2498146d68e2b4619c32fbc26e94727663cf19f829c8ed5572e0b2d24d12bcca32a569022a0243f8a7f51a8469c0215a0",
+        "rol": "club",
+        "club_id": "1770752506"
+    },
+    "patinnariño": {
+        "password": "scrypt:32768:8:1$BQFICogS9FfpQG8M$e85bcf4546a78e2a6ca34f6d2e0cb29f2558c928ae97e51ccbd25e20fd05befb0781581399c8d4ded4cead371dcd9db659ad1ceee5d67b172a2668be985f987b",
+        "rol": "club",
+        "club_id": "1770752512"
+    },
+    "championsskate": {
+        "password": "scrypt:32768:8:1$JoTKLnXa1k7jJ7Ut$5c31b8a0423bef0b4169563bfd195e983c6b5d2cf8452310172c6f6d48f4c192c132616f18f455711ccc678f408f93fb65288ba030f9c67c336219f35cd0f293",
+        "rol": "club",
+        "club_id": "1770752518"
+    },
+    "jrwheels": {
+        "password": "scrypt:32768:8:1$GEKotGa9USD9wC2f$0186665289d1f4f0c93369aa2033afd4983bde6e2e2864bf12cdf66d9dc3b60ff7977deae749be44eb33f6bb1c61defcd82e4b5a68df6a7ce3c41c05d50aee18",
+        "rol": "club",
+        "club_id": "1770752523"
+    },
+    "ruedasdefuego-ipiales": {
+        "password": "scrypt:32768:8:1$QP9fM2Sm0aL7JaSa$3f8f046c32a90fe1f82a85cc5419254a9f8d479f68be7d24cf364c24823829a6be040b1c9ab442e1ad73aa17cc812e3a4838906faaeb0179d53bd73b15d63315",
+        "rol": "club",
+        "club_id": "1770752532"
+    },
+    "estrellasdelpacifico-tumaco": {
+        "password": "scrypt:32768:8:1$ev1Q8ld4tmL3Mhi8$e718fde877b910a69a42debf99832d2af9d56343ed9575fd6259aad6f3f6d041875a1e3996a7ea850c5e5157fe7284f45c931cf4d4986c769691540a60757030",
+        "rol": "club",
+        "club_id": "1770752542"
+    },
+    "warriorteam": {
+        "password": "scrypt:32768:8:1$gNcJTE8uCeDI0Yea$0f1cd4e117cadae6deb1ed7814b6d39dd271d33c475ee6dc41782fdaf0173f869262d29d4eac21d236d5c77154a46e86fc93c918dd1100d981d18b4d3cd7deef",
+        "rol": "club",
+        "club_id": "1770752550"
+    },
+    "ruedasdefe": {
+        "password": "scrypt:32768:8:1$hFutNGGGH0ANucZ2$86620817cc15ba6b8e01cbaa2e913852611be3ecb81030f5069d24be9db9b2c22216741ceb57a4a2626bec51efc14efa73cda9526e2b3a893043f2572b054b06",
+        "rol": "club",
+        "club_id": "1770752566"
+    }
+}

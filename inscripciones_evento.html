@@ -1,0 +1,89 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+
+<div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+        <h2 style="margin:0; color: #003366;">🏁 {{ competencia.nombre }}</h2>
+        <div style="background: #003366; color: white; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: bold;">
+            {{ mostrados }} de {{ total_inscritos }} Inscritos
+        </div>
+    </div>
+
+    <form method="get" action="/admin/inscripciones-eventos/{{ competencia.id }}" 
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; background: #f8f9fa; padding: 15px; border-radius: 10px;">
+        
+        <input type="text" name="q" placeholder="Buscar..." value="{{ filtros.q }}" style="grid-column: span 2; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+
+        <select name="club" style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+            <option value="">Club (Todos)</option>
+            {% for c in clubes %}<option value="{{ c }}" {% if filtros.club == c %}selected{% endif %}>{{ c }}</option>{% endfor %}
+        </select>
+
+        <select name="categoria" style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+            <option value="">Categoría</option>
+            {% for c in categorias %}<option value="{{ c }}" {% if filtros.categoria == c %}selected{% endif %}>{{ c }}</option>{% endfor %}
+        </select>
+
+        <select name="modalidad" style="padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+            <option value="">Modalidad</option>
+            {% for m in modalidades %}<option value="{{ m }}" {% if filtros.modalidad == m %}selected{% endif %}>{{ m }}</option>{% endfor %}
+        </select>
+
+        <button type="submit" style="background: #003366; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; height: 40px;">Filtrar</button>
+        <a href="/admin/inscripciones-eventos/{{ competencia.id }}" style="text-align: center; background: #6c757d; color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-size: 14px; display: flex; align-items: center; justify-content: center;">Limpiar</a>
+    </form>
+</div>
+
+<div style="overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    <table width="100%" style="border-collapse: collapse; text-align: left; min-width: 900px;">
+        <thead>
+            <tr style="background: #003366; color: white;">
+                <th style="padding: 15px;">Documento</th>
+                <th style="padding: 15px;">Nombre Deportista</th>
+                <th style="padding: 15px;">Club</th>
+                <th style="padding: 15px;">Categoría</th>
+                <th style="padding: 15px;">Modalidad</th>
+                <th style="padding: 15px;">Estado Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in inscripciones %}
+            <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 15px; color: #666;">{{ i.documento }}</td>
+                <td style="padding: 15px;"><strong>{{ i.nombre }}</strong></td>
+                
+                <td style="padding: 15px;">
+                    <span style="color: #003366; font-weight: 500;">{{ i.club if i.club else 'Sin Club' }}</span>
+                </td>
+
+                <td style="padding: 15px;"><span style="background:#eef2f7; padding:4px 8px; border-radius:4px;">{{ i.categoria }}</span></td>
+                <td style="padding: 15px;">{{ i.modalidad }}</td>
+
+                <td style="padding: 15px;">
+                    <form method="post" action="/admin/inscripciones/{{ i.id }}/estado">
+                        <select name="estado_pago" onchange="this.form.submit()" 
+                                style="padding: 8px; border-radius: 6px; font-weight: bold; border: 1px solid #ddd; cursor: pointer;
+                                background: {% if i.estado_pago == 'pagado' %}#d4edda{% elif i.estado_pago == 'pendiente' %}#fff3cd{% else %}#f8d7da{% endif %};
+                                color: {% if i.estado_pago == 'pagado' %}#155724{% elif i.estado_pago == 'pendiente' %}#856404{% else %}#721c24{% endif %};">
+                            <option value="pendiente" {% if i.estado_pago == "pendiente" %}selected{% endif %}>⏳ Pendiente</option>
+                            <option value="pagado" {% if i.estado_pago == "pagado" %}selected{% endif %}>✅ Pagado</option>
+                            <option value="rechazado" {% if i.estado_pago == "rechazado" %}selected{% endif %}>❌ Rechazado</option>
+                        </select>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 25px; display: flex; justify-content: space-between;">
+    <a href="/admin/inscripciones-eventos" style="color: #003366; text-decoration: none; font-weight: bold;">⬅ Volver al listado de eventos</a>
+    
+    <a href="/admin/inscripciones-eventos/{{ competencia.id }}/excel{% if request.query_string %}?{{ request.query_string.decode() }}{% endif %}" 
+       style="background: #28a745; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+       📥 Descargar Excel
+    </a>
+</div>
+
+{% endblock %}

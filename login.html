@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso al sistema</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <style>
+        /* Estilos rápidos para las alertas si no las tienes en tu CSS */
+        .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
+        .alert-danger { color: #a94442; background-color: #f2dede; border-color: #ebccd1; }
+        .alert-success { color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; }
+        .alert-warning { color: #8a6d3b; background-color: #fcf8e3; border-color: #faebcc; }
+        .alert-info { color: #31708f; background-color: #d9edf7; border-color: #bce8f1; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Ingreso al sistema</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="input-group">
+                <label>Usuario</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label>Contraseña</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <button type="submit">Ingresar</button>
+        </form>
+
+        <p class="login-note">
+            Acceso exclusivo para personal autorizado
+        </p>
+
+        <hr>
+
+        <p>¿Eres deportista y no tienes cuenta?</p>
+        <a href="/registro/deportista" class="btn" style="text-decoration: none; display: inline-block; margin-top: 10px; color: blue;">
+            Registrarme / Activar cuenta
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

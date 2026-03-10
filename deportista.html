@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil | {{ deportista.nombre|title }}{% endblock %}
+
+{% block content %}
+<style>
+    .panel-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    
+    .panel-header {
+        background: #003366; 
+        color: white;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .panel-header h2 { margin: 0; font-size: 2rem; letter-spacing: 1px; }
+    .panel-header p { margin: 10px 0 0; opacity: 0.9; font-size: 1.1rem; }
+
+    .cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; 
+        gap: 25px;
+        align-items: start;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border: 1px solid #edf2f7;
+        min-height: 500px;
+    }
+    .card h3 {
+        color: #2d3748;
+        border-bottom: 2px solid #edf2f7;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+    }
+
+    .info-item { margin-bottom: 12px; font-size: 0.95rem; color: #4a5568; line-height: 1.4; }
+    .info-item span { font-weight: bold; color: #2d3748; width: 140px; display: inline-block; }
+
+    .btn-action {
+        width: 100%; padding: 10px; margin-top: 10px; border: none; border-radius: 6px; font-weight: bold;
+        cursor: pointer; transition: 0.3s; text-align: center; text-decoration: none; display: block;
+    }
+    .btn-edit { background: #0C0459; color: #FFFFFF; }
+    .btn-pass { background: #28a745; color: white; }
+
+    .hidden-form { 
+        display: none; background: #f8fafc; padding: 15px; border-radius: 8px; 
+        margin-top: 15px; border: 1px dashed #cbd5e0; 
+    }
+    .hidden-form label { display: block; font-size: 0.75rem; font-weight: bold; color: #2d3748; margin-bottom: 3px; margin-top: 8px; }
+    .hidden-form input { 
+        width: 100%; padding: 8px; margin-bottom: 5px; border: 1px solid #ccc; 
+        border-radius: 4px; box-sizing: border-box; 
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    td { padding: 12px 10px; border-bottom: 1px solid #edf2f7; }
+
+    @media (max-width: 1024px) { .cards-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .cards-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="panel-container">
+
+    <div class="panel-header">
+        <h2>{{ deportista.nombre|title }}</h2>
+        <p>
+            <i class="fas fa-id-card"></i> {{ deportista.documento }} | 
+            <i class="fas fa-tag"></i> Categoría: {{ deportista.categoria|title }} | 
+            <i class="fas fa-shield-alt"></i> Club: {{ deportista.club_nombre|title }}
+        </p>
+    </div>
+
+    <div class="cards-grid">
+
+        <div class="card">
+            <h3>👤 Información Personal</h3>
+            <div class="info-item"><span>Nombre:</span> {{ deportista.nombre|title }}</div>
+            <div class="info-item"><span>Documento:</span> {{ deportista.documento }}</div>
+            <div class="info-item"><span>Fecha Nac:</span> {{ deportista.fecha_bonita|title }}</div>
+            <div class="info-item"><span>Edad:</span> {{ edad }} Años</div>
+            <div class="info-item"><span>Rama:</span> {{ deportista.sexo }}</div>
+            <div class="info-item"><span>Club:</span> {{ deportista.club_nombre|title }}</div>
+            <div class="info-item"><span>Modalidad:</span> {{ deportista.modalidad|title }}</div>
+            <div class="info-item"><span>Teléfono:</span> {{ deportista.telefono }}</div>
+            <div class="info-item"><span>Acudiente:</span> {{ deportista.acudiente_nombre|title }}</div>
+            
+            <div style="margin-top: 20px;">
+                <button class="btn-action btn-edit" onclick="toggleForm('form-editar')">✏️ Editar Perfil</button>
+                <div id="form-editar" class="hidden-form">
+                    <form method="POST" action="/perfil/editar">
+                        <label>NOMBRE COMPLETO:</label>
+                        <input type="text" name="nombre" value="{{ deportista.nombre }}">
+                        
+                        <label>FECHA DE NACIMIENTO:</label>
+                        <input type="date" name="fecha_nacimiento">
+                        <small style="font-size: 0.7rem; color: #666;">(Déjalo vacío si no deseas cambiarlo)</small>
+
+                        <label>TELÉFONO PERSONAL:</label>
+                        <input type="text" name="telefono" value="{{ deportista.telefono }}">
+                        
+                        <label>CORREO ELECTRÓNICO:</label>
+                        <input type="email" name="correo" value="{{ deportista.correo }}">
+                        
+                        <label>NOMBRE ACUDIENTE:</label>
+                        <input type="text" name="acudiente_nombre" value="{{ deportista.acudiente_nombre }}">
+
+                        <label>TELÉFONO ACUDIENTE:</label>
+                        <input type="text" name="acudiente_telefono" value="{{ deportista.acudiente_telefono }}">
+                        
+                        <button type="submit" class="btn-action btn-edit" style="margin-top: 15px;">Guardar Cambios</button>
+                    </form>
+                </div>
+
+                <button class="btn-action btn-pass" onclick="toggleForm('form-clave')">🔑 Cambiar Clave</button>
+                <div id="form-clave" class="hidden-form">
+                    <form method="POST" action="/perfil/cambiar-password">
+                        <label>CONTRASEÑA ACTUAL:</label>
+                        <input type="password" name="password_actual" required>
+                        <label>NUEVA CONTRASEÑA:</label>
+                        <input type="password" name="password_nueva" required>
+                        <label>CONFIRMAR CONTRASEÑA:</label>
+                        <input type="password" name="password_confirmar" required>
+                        <button type="submit" class="btn-action btn-pass" style="margin-top: 15px;">Actualizar Clave</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🏁 Eventos Disponibles</h3>
+            {% if eventos %}
+                {% for e in eventos %}
+                    <div style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 15px;">
+                        <strong style="color: #003366;">{{ e.nombre|title }}</strong><br>
+                        <small>{{ e.fecha_evento }} - {{ e.lugar|title }}</small><br>
+                        <a href="/competencias/{{ e.id }}" class="btn-action btn-edit" style="font-size: 0.8rem; margin-top: 8px;">Inscribirme</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; margin-top: 40px; color: #a0aec0;">No hay eventos abiertos.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h3>📋 Mis Inscripciones</h3>
+            {% if inscripciones %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; padding-bottom: 10px;">Evento</th>
+                            <th style="text-align: right; padding-bottom: 10px;">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in inscripciones %}
+                        <tr>
+                            <td>{{ i.nombre_evento|title }}</td>
+                            <td style="text-align: right;">
+                                <span style="color: {% if i.estado_pago|lower == 'pagado' %}#28a745{% else %}#dc3545{% endif %}; font-weight: bold;">
+                                    {{ i.estado_pago|title }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="text-align: center; margin-top: 40px; color: #a0aec0;">Sin inscripciones activas.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<script>
+function toggleForm(id) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    const isVisible = target.style.display === 'block';
+    document.querySelectorAll('.hidden-form').forEach(f => f.style.display = 'none');
+    if (!isVisible) {
+        target.style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

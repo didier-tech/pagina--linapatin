@@ -1,0 +1,36 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="admin-header" style="margin-bottom: 30px;">
+    <h1>👋 ¡Hola, {{ session.user.usuario }}!</h1>
+    <p>Bienvenido al Panel de Gestión de LINAPATIN. Selecciona una opción del menú lateral o de los accesos rápidos abajo.</p>
+</div>
+
+<div class="dashboard-staff" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+    
+    <div class="card-admin" style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
+        <h3>Resultados</h3>
+        <p style="color: #666;">Cargar y gestionar resultados de competencias.</p>
+        <a href="/admin/resultados" style="display: inline-block; margin-top: 15px; background: #2d3436; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Ir ahora</a>
+    </div>
+
+    {% if rol in ['admin', 'editor'] %}
+    <div class="card-admin" style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid #00cec9;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">📰</div>
+        <h3>Noticias y Prensa</h3>
+        <p style="color: #666;">Publicar novedades en el sitio web.</p>
+        <a href="/admin/noticias" style="display: inline-block; margin-top: 15px; background: #00cec9; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Publicar</a>
+    </div>
+    {% endif %}
+
+    {% if rol == 'admin' %}
+    <div class="card-admin" style="background: white; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid #d63031;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">👥</div>
+        <h3>Deportistas</h3>
+        <p style="color: #666;">Base de datos central de patinadores.</p>
+        <a href="/admin/deportistas" style="display: inline-block; margin-top: 15px; background: #d63031; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Gestionar</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

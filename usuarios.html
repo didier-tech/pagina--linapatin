@@ -1,0 +1,79 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>👥 Equipo de Gestión</h1>
+    <p>Lista de usuarios con permisos para editar contenidos en LINAPATIN.</p>
+</div>
+
+<div class="card-admin" style="margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Usuarios Administrativos</h2>
+        <a href="/admin/usuarios/nuevo" class="btn-publish" style="width: auto; padding: 10px 20px; text-decoration: none;">+ Nuevo Usuario</a>
+    </div>
+
+    <div class="table-responsive">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background: #f8f9fa; border-bottom: 2px solid #eee;">
+                    <th style="padding: 15px;">Usuario</th>
+                    <th style="padding: 15px;">Nombre / Cargo</th>
+                    <th style="padding: 15px;">Rol</th>
+                    <th style="padding: 15px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for username, data in users.items() %}
+                <tr style="border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.background='#fcfcfc'" onmouseout="this.style.background='transparent'">
+                    <td style="padding: 15px;">
+                        <span style="font-weight: bold; color: #333;">@{{ username }}</span>
+                    </td>
+                    <td style="padding: 15px;">
+                        {{ data.nombre if data.nombre else 'Sin nombre' }}
+                    </td>
+                    <td style="padding: 15px;">
+                        {% set rol = data.rol or data.role %}
+                        <span class="badge-rol {{ rol }}">
+                            {{ rol | upper if rol else 'USUARIO' }}
+                        </span>
+                    </td>
+                    <td style="padding: 15px;">
+                        <div style="display: flex; gap: 10px;">
+                            <a href="/admin/usuarios/editar/{{ username }}" class="btn-edit" title="Editar Rol o Resetear Clave" style="text-decoration: none; font-size: 0.8rem; padding: 5px 10px; border-radius: 4px;">
+                                ✏️ Gestionar
+                            </a>
+
+                            {% if username != session['user']['usuario'] %}
+                            <a href="/admin/users/delete/{{ username }}" class="btn-delete" style="text-decoration: none; font-size: 0.8rem; padding: 5px 10px; border-radius: 4px;" onclick="return confirm('¿Está seguro de eliminar el acceso a @{{ username }}?')">
+                                🗑️
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .badge-rol {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+    .badge-rol.admin { background: #fee2e2; color: #dc2626; }
+    .badge-rol.editor { background: #e0f2fe; color: #0284c7; }
+    .badge-rol.colaborador { background: #f0fdf4; color: #16a34a; }
+    .badge-rol.club { background: #fef3c7; color: #92400e; }
+    
+    .table-responsive { overflow-x: auto; }
+    
+    .btn-edit { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+    .btn-edit:hover { background: #fcd34d; }
+    .btn-delete { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+    .btn-delete:hover { background: #fecaca; }
+</style>
+{% endblock %}

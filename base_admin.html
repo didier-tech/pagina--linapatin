@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-layout" style="display: flex; min-height: 100vh; background: #f4f7f6;">
+    
+    <aside class="admin-sidebar" style="width: 260px; background: #003366; color: white; flex-shrink: 0; padding-top: 10px;">
+        
+        <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <h2 style="color: #00cec9; font-size: 1.2rem; margin: 0;">LINAPATIN</h2>
+        </div>
+        
+        <nav style="display: flex; flex-direction: column;">
+            <a href="/admin/inicio" class="nav-link-admin">🏠 Inicio</a>
+
+            {# OPCIONES PARA ADMIN Y EDITOR #}
+            {% if session.user.rol in ["admin", "editor"] %}
+                <div class="menu-divider">CONTENIDO</div>
+                <a href="/admin/noticias" class="nav-link-admin">📰 Noticias</a>
+                <a href="/admin/calendario" class="nav-link-admin">📅 Calendario</a>
+                <a href="/admin/info-general" class="nav-link-admin">ℹ️ Info General</a>
+                <a href="/admin/competiciones" class="nav-link-admin">🏁 Registrar Competencia</a>
+            {% endif %}
+
+            {# OPCIÓN PARA TODOS #}
+            <div class="menu-divider">DEPORTIVO</div>
+            <a href="/admin/resultados" class="nav-link-admin">🏆 Cargar Resultados</a>
+
+            {# OPCIONES EXCLUSIVAS DEL ADMIN #}
+            {% if session.user.rol == "admin" %}
+                <div class="menu-divider">SISTEMA</div>
+                <a href="/admin/hero" class="nav-link-admin">📢 Gestionar Banners</a>
+                <a href="/admin/info" class="nav-link-admin">📈 Info⚠️</a>
+                <a href="/admin/clubes" class="nav-link-admin">🏘️ Clubes Afiliados</a>
+                <a href="/admin/deportistas" class="nav-link-admin">🏃 Base de Deportistas</a>
+                <a href="/admin/clubes-registro" class="nav-link-admin">🏘️ Base Datos Clubes</a>
+                <a href="/admin/usuarios" class="nav-link-admin">🙍‍♂️ Usuarios</a>
+            {% endif %}
+
+            <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                <a href="/" class="nav-link-admin" style="color: #fab1a0;">🌐 Ver sitio público</a>
+                <a href="/logout" class="nav-link-admin" style="color: #ff7675;">🚪 Cerrar sesión</a>
+            </div>
+        </nav>
+    </aside>
+
+    <main style="flex-grow: 1; padding: 25px; overflow-x: hidden;">
+        <header style="background: white; padding: 15px 25px; border-radius: 10px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <span>Usuario: <strong>{{ session.user.usuario }}</strong></span>
+            <span style="background: #007bff; color: white; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+                {{ session.user.rol | upper }}
+            </span>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div style="padding: 15px; margin-bottom: 20px; border-radius: 8px; background: {% if category=='success' %}#d4edda{% else %}#f8d7da{% endif %}; color: {% if category=='success' %}#155724{% else %}#721c24{% endif %}; border: 1px solid {% if category=='success' %}#c3e6cb{% else %}#f5c6cb{% endif %};">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <section class="admin-content-area">
+            {% block admin_content %}{% endblock %}
+        </section>
+    </main>
+</div>
+
+<style>
+    /* 2. COLOR DE LOS ENLACES: 'color' es el texto normal */
+    .nav-link-admin { 
+        padding: 12px 20px; 
+        color: #dfe6e9; 
+        text-decoration: none; 
+        font-size: 0.9rem; 
+        transition: 0.2s; 
+    }
+
+    /* 3. EFECTO AL PASAR EL MOUSE: 
+       'background' es el color que resalta el botón
+       'color' es el color de las letras al brillar */
+    .nav-link-admin:hover { 
+        background: rgba(255,255,255,0.1); 
+        color: #00cec9; 
+        padding-left: 25px; 
+    }
+
+    /* 4. SEPARADORES (CONTENIDO, DEPORTIVO, SISTEMA):
+       Cambia el 'color' para que se lea mejor sobre el fondo elegido */
+    .menu-divider { 
+        color: #7f8c8d; 
+        font-size: 0.7rem; 
+        padding: 15px 20px 5px; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+    }
+</style>
+{% endblock %}

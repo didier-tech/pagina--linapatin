@@ -1,0 +1,44 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}
+{% if club %}Editar club{% else %}Nuevo club{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<h1>{% if club %}Editar club{% else %}Nuevo club{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data">
+
+    <label>Nombre del club</label><br>
+    <input type="text" name="nombre" required
+           value="{{ club.nombre if club else '' }}"><br><br>
+
+    <label>Contacto</label><br>
+    <input type="text" name="contacto" required
+           value="{{ club.contacto if club else '' }}"><br><br>
+
+    <label>Correo electrónico</label><br>
+    <input type="email" name="correo" required
+           value="{{ club.correo if club else '' }}"><br><br>
+
+    <label>Logo del club</label><br>
+    <input type="file" name="logo" accept="image/*"><br><br>
+
+    <label>
+        <input type="checkbox" name="destacado"
+        {% if club and club.destacado %}checked{% endif %}>
+        Marcar como destacado (aparece primero)
+    </label>
+
+    <br><br>
+
+    <button type="submit">
+        {% if club %}Guardar cambios{% else %}Crear club{% endif %}
+    </button>
+
+    <a href="/admin/clubes" style="margin-left:15px;">Cancelar</a>
+
+</form>
+
+{% endblock %}

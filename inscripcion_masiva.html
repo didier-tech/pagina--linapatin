@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Inscripción Club{% endblock %}
+
+{% block content %}
+<section class="container">
+
+<h2>Inscripción de deportistas – {{ competencia.nombre }}</h2>
+
+<form method="POST" action="/club/competencias/{{ competencia.id }}/inscribir">
+
+
+<table>
+    <tr>
+        <th>Inscribir</th>
+        <th>Nombre</th>
+        <th>Documento</th>
+        <th>Sexo</th>
+    </tr>
+
+    {% for d in deportistas %}
+    <tr>
+        <td>
+            <input type="checkbox" name="documentos" value="{{ d.documento }}">
+        </td>
+        <td>{{ d.nombre }}</td>
+        <td>{{ d.documento }}</td>
+        <td>{{ d.sexo }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<button type="submit" class="btn">
+    Inscribir seleccionados
+</button>
+
+</form>
+
+</section>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="admin-header" style="margin-bottom: 30px;">
+    <h1>🏆 Gestión de Resultados Oficiales</h1>
+    <p>Sube archivos nuevos o gestiona los resultados publicados por evento.</p>
+</div>
+
+<div class="card-admin" style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 40px;">
+    <h3 style="margin-top: 0; color: #007bff;">📤 Cargar Nuevos Archivos</h3>
+    <form method="POST" enctype="multipart/form-data" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 15px; align-items: end;">
+        <div class="form-group">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Evento:</label>
+            <select name="evento_id" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <option value="">-- Seleccionar --</option>
+                {% for id, comp in competiciones.items() %}
+                    <option value="{{ id }}">{{ comp.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Archivos (PDF/Excel):</label>
+            <input type="file" name="archivo_resultado" accept=".pdf,.xlsx,.xls" multiple required style="width: 100%; font-size: 0.9rem;">
+        </div>
+
+        <button type="submit" style="background: #28a745; color: white; border: none; padding: 11px 25px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+            Subir
+        </button>
+    </form>
+</div>
+
+<h3>📂 Eventos con Resultados Publicados</h3>
+<div class="eventos-container" style="display: grid; gap: 10px;">
+    {% for id, comp in competiciones.items() %}
+        {% if comp.resultados_lista or comp.resultado_pdf %}
+        <div class="evento-card" style="border: 1px solid #ddd; border-radius: 8px; background: white; overflow: hidden;">
+            
+            <div onclick="toggleEvento('{{ id }}')" style="padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; transition: 0.2s;" onmouseover="this.style.background='#f0f7ff'">
+                <div>
+                    <strong style="font-size: 1.1rem; color: #333;">{{ comp.nombre }}</strong>
+                    <span style="margin-left: 10px; color: #666; font-size: 0.85rem;">📅 {{ comp.fecha_evento }}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="background: #e9ecef; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">
+                        {{ comp.resultados_lista|length if comp.resultados_lista else '1' }} archivos
+                    </span>
+                    <span id="icon-{{ id }}">▼</span>
+                </div>
+            </div>
+
+            <div id="content-{{ id }}" style="display: none; padding: 20px; border-top: 1px solid #eee; background: #fafafa;">
+                <div style="display: grid; gap: 10px;">
+                    {% if comp.resultados_lista %}
+                        {% for archi in comp.resultados_lista %}
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border-radius: 6px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                <span style="font-size: 0.9rem; color: #444;">📄 {{ archi }}</span>
+                                <div style="display: flex; gap: 10px;">
+                                    <a href="/static/uploads/resultados/{{ archi }}" target="_blank" style="text-decoration: none; font-size: 0.8rem; color: #007bff; border: 1px solid #007bff; padding: 4px 10px; border-radius: 4px;">Ver</a>
+                                    <a href="/admin/resultados/eliminar/{{ id }}/{{ archi }}" 
+                                       onclick="return confirm('¿Eliminar este archivo?')"
+                                       style="text-decoration: none; font-size: 0.8rem; color: #dc3545; border: 1px solid #dc3545; padding: 4px 10px; border-radius: 4px;">Eliminar 🗑️</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% elif comp.resultado_pdf %}
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border-radius: 6px; border: 1px solid #eee;">
+                            <span style="font-size: 0.9rem; color: #444;">📄 {{ comp.resultado_pdf }} (Legacy)</span>
+                            <a href="/admin/resultados/eliminar/{{ id }}/{{ comp.resultado_pdf }}" 
+                               onclick="return confirm('¿Eliminar archivo antiguo?')"
+                               style="color: #dc3545; text-decoration: none; border: 1px solid #dc3545; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem;">Eliminar 🗑️</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script>
+function toggleEvento(id) {
+    const content = document.getElementById('content-' + id);
+    const icon = document.getElementById('icon-' + id);
+    
+    if (content.style.display === "none") {
+        content.style.display = "block";
+        icon.innerHTML = "▲";
+        icon.style.color = "#007bff";
+    } else {
+        content.style.display = "none";
+        icon.innerHTML = "▼";
+        icon.style.color = "#333";
+    }
+}
+</script>
+
+{% endblock %}

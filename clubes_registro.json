@@ -1,0 +1,86 @@
+{
+    "1770752467": {
+        "id": "1770752467",
+        "nombre": "Patin Galeras",
+        "afiliado": true,
+        "usuario": "patingaleras",
+        "activo": true
+    },
+    "1770752475": {
+        "id": "1770752475",
+        "nombre": "Skaters del Sur",
+        "afiliado": true,
+        "usuario": "skatersdelsur",
+        "activo": true
+    },
+    "1770752481": {
+        "id": "1770752481",
+        "nombre": "Ases del Patin",
+        "afiliado": true,
+        "usuario": "asesdelpatin",
+        "activo": true
+    },
+    "1770752499": {
+        "id": "1770752499",
+        "nombre": "Ases del Patin elite",
+        "afiliado": true,
+        "usuario": "asesdelpatinelite",
+        "activo": true
+    },
+    "1770752506": {
+        "id": "1770752506",
+        "nombre": "Deportivo Pasto",
+        "afiliado": true,
+        "usuario": "deportivopasto",
+        "activo": true
+    },
+    "1770752512": {
+        "id": "1770752512",
+        "nombre": "Patin Nariño",
+        "afiliado": true,
+        "usuario": "patinnariño",
+        "activo": true
+    },
+    "1770752518": {
+        "id": "1770752518",
+        "nombre": "Champions Skate",
+        "afiliado": true,
+        "usuario": "championsskate",
+        "activo": true
+    },
+    "1770752523": {
+        "id": "1770752523",
+        "nombre": "JR Wheels",
+        "afiliado": true,
+        "usuario": "jrwheels",
+        "activo": true
+    },
+    "1770752532": {
+        "id": "1770752532",
+        "nombre": "Ruedas de Fuego-Ipiales",
+        "afiliado": true,
+        "usuario": "ruedasdefuego-ipiales",
+        "activo": true
+    },
+    "1770752542": {
+        "id": "1770752542",
+        "nombre": "EStrellas del Pacifico-Tumaco",
+        "afiliado": true,
+        "usuario": "estrellasdelpacifico-tumaco",
+        "activo": true
+    },
+    "1770752550": {
+        "id": "1770752550",
+        "nombre": "Warrior Team",
+        "afiliado": true,
+        "usuario": "warriorteam",
+        "activo": true
+    },
+    "1770752566": {
+        "id": "1770752566",
+        "nombre": "Ruedas de Fe",
+        "afiliado": false,
+        "usuario": "ruedasdefe",
+        "activo": true
+    }
+}

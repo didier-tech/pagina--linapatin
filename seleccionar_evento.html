@@ -1,0 +1,27 @@
+{% extends "club/base_club.html" %}
+{% block content %}
+
+<h2>📌 Seleccionar evento</h2>
+
+<form method="post" action="/club/inscripcion-masiva/confirmar">
+
+    {% for d in documentos %}
+        <input type="hidden" name="documentos" value="{{ doc }}">
+    {% endfor %}
+
+    <label>Evento:</label>
+    <select name="competencia_id" required>
+        {% for e in eventos %}
+            <option value="{{ e.id }}">
+                {{ e.nombre }} — {{ e.fecha_evento }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+    <button type="submit">✅ Confirmar inscripción</button>
+    <a href="/club/deportistas">Cancelar</a>
+
+</form>
+
+{% endblock %}

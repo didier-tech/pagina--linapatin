@@ -1,0 +1,31 @@
+{% extends "club/base_club.html" %}
+{% block content %}
+
+<h2>✏️ Editar datos del deportista</h2>
+
+<form method="POST">
+
+    <label>Nombre</label><br>
+    <input type="text" name="nombre" value="{{ d.nombre }}" required><br><br>
+
+    <label>Fecha de nacimiento</label><br>
+    <input type="date" name="fecha_nacimiento" value="{{ d.fecha_nacimiento }}" required><br><br>
+
+    <label>Sexo</label><br>
+    <select name="sexo" required>
+        <option value="M" {% if d.sexo == "M" %}selected{% endif %}>Masculino</option>
+        <option value="F" {% if d.sexo == "F" %}selected{% endif %}>Femenino</option>
+    </select><br><br>
+
+    <label>Teléfono</label><br>
+    <input type="text" name="telefono" value="{{ d.telefono }}"><br><br>
+
+    <label>Correo</label><br>
+    <input type="email" name="correo" value="{{ d.correo }}"><br><br>
+
+    <button type="submit">💾 Guardar cambios</button>
+    <a href="/club/deportistas">Cancelar</a>
+
+</form>
+
+{% endblock %}

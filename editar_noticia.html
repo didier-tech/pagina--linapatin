@@ -1,0 +1,109 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Admin - Editar Noticia{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>✏️ Editar Noticia</h1>
+    <p>Modificando: <strong>{{ noticia.title }}</strong></p>
+</div>
+
+<div class="noticias-grid">
+    <div class="form-noticia card-admin">
+        <h2>🔄 Actualizar Contenido</h2>
+        <form method="POST" action="/admin/news/update/{{ news_id }}" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label>Título de la Noticia</label>
+                <input type="text" name="title" value="{{ noticia.title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Cuerpo de la noticia</label>
+                <textarea name="content" rows="12" required>{{ noticia.content }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Imagen Destacada</label>
+                <div class="upload-container" id="drop-area-news">
+                    {% if noticia.image %}
+                        <p>✅ Imagen actual cargada (Haz clic para cambiar)</p>
+                    {% else %}
+                        <p>🖼️ Arrastra una foto o haz clic</p>
+                    {% endif %}
+                    <input type="file" name="image" id="fileNews" accept="image/*" onchange="previewNewsImage(this)">
+                    <div id="preview-box">
+                        {% if noticia.image %}
+                            <img src="{{ url_for('static', filename='uploads/news/' ~ noticia.image) }}" id="current-img">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn-publish">💾 Guardar Cambios</button>
+                <a href="/admin/noticias" class="btn-delete" style="text-decoration: none; display: flex; align-items: center; justify-content: center; width: 40%; border-radius: 8px;">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="lista-noticias">
+        <h2>ℹ️ Información de la Publicación</h2>
+        <div class="news-card shadow-sm" style="padding: 20px;">
+            <p><strong>ID Único:</strong> <code>{{ news_id }}</code></p>
+            <p><strong>Creado por:</strong> {{ noticia.created_by }}</p>
+            <p><strong>Fecha Creación:</strong> {{ noticia.created_at }}</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <p><strong>Última modificación:</strong> {{ noticia.updated_at }}</p>
+            <p><strong>Modificado por:</strong> {{ noticia.updated_by }}</p>
+        </div>
+        
+        <div class="alert alert-info" style="background: #e7f3ff; color: #004085; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <small>💡 <strong>Nota:</strong> Si no seleccionas una imagen nueva, se mantendrá la imagen actual de la noticia.</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Reutilizamos exactamente tu CSS para mantener la coherencia */
+    .noticias-grid { 
+        display: grid; 
+        grid-template-columns: 450px minmax(300px, 600px); 
+        gap: 30px; 
+        margin-top: 20px; 
+        justify-content: center;
+    }
+    .card-admin { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+    .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+    
+    .upload-container { border: 2px dashed #007bff; background: #f8fbff; padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; }
+    #fileNews { display: none; }
+    #preview-box img { max-width: 100%; border-radius: 6px; margin-top: 10px; }
+
+    .btn-publish { background: #007bff; color: white; border: none; width: 60%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .btn-delete { background: #f8d7da; color: #721c24; padding: 10px; font-weight: bold; }
+
+    @media (max-width: 1000px) {
+        .noticias-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<script>
+    const dropAreaNews = document.getElementById('drop-area-news');
+    if(dropAreaNews) dropAreaNews.onclick = () => document.getElementById('fileNews').click();
+
+    function previewNewsImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Reemplazamos la imagen vieja por la nueva en la vista previa
+                document.getElementById('preview-box').innerHTML = `<img src="${e.target.result}">`;
+                dropAreaNews.querySelector('p').innerText = "✅ Nueva imagen seleccionada";
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}

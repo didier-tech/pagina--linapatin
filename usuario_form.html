@@ -1,0 +1,46 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <h2>{{ 'Actualizar Permisos' if editando else 'Registrar Nuevo Miembro del Staff' }}</h2>
+    <hr>
+    
+    <form method="POST">
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nombre de Usuario (Login)</label>
+            <input type="text" name="username" value="{{ user_data.usuario if user_data else '' }}" 
+                   {{ 'readonly style=background:#f0f0f0' if editando else 'required' }} 
+                   placeholder="ej: juan.perez" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nombre Completo</label>
+            <input type="text" name="nombre" value="{{ user_data.nombre if user_data else '' }}" 
+                   required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Asignar Rol</label>
+            <select name="rol" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <option value="colaborador" {{ 'selected' if user_data and user_data.rol == 'colaborador' }}>Colaborador (Solo lectura/noticias)</option>
+                <option value="editor" {{ 'selected' if user_data and user_data.rol == 'editor' }}>Editor (Contenidos y Portada)</option>
+                <option value="admin" {{ 'selected' if user_data and user_data.rol == 'admin' }}>Administrador (Acceso Total)</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Contraseña</label>
+            <input type="password" name="password" {{ '' if editando else 'required' }} 
+                   placeholder="{{ 'Dejar en blanco para mantener actual' if editando else 'Mínimo 6 caracteres' }}"
+                   style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                💾 Guardar Cambios
+            </button>
+            <a href="/admin/usuarios" style="background: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

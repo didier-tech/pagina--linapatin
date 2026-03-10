@@ -1,0 +1,96 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Admin - Gestión de Noticias{% endblock %}
+
+{% block content %}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>📰 Gestión de Noticias</h1>
+        <button class="btn-new" onclick="document.getElementById('modalNoticia').style.display='block'">
+            <i class="fas fa-plus"></i> Redactar Nueva Noticia
+        </button>
+    </div>
+
+    <div class="card-admin">
+        <h2>Historial de Publicaciones</h2>
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Portada</th>
+                        <th>Título</th>
+                        <th>Fecha</th>
+                        <th>Autor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if noticias %}
+                        {% for n in noticias %}
+                        <tr>
+                            <td>
+                                {% if n.image %}
+                                    <img src="{{ url_for('static', filename='uploads/noticias/' ~ n.image) }}" class="img-mini">
+                                {% else %}
+                                    <span class="no-img">Sin foto</span>
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ n.title }}</strong></td>
+                            <td>{{ n.created_at }}</td>
+                            <td>{{ n.updated_by or 'Sistema' }}</td>
+                            <td class="actions">
+                                <a href="/admin/noticias/editar/{{ n.id }}" class="btn-edit"><i class="fas fa-edit"></i></a>
+                                <a href="/admin/noticias/eliminar/{{ n.id }}" class="btn-del" onclick="return confirm('¿Eliminar?')"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="5" style="text-align:center;">No hay noticias.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="modalNoticia" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('modalNoticia').style.display='none'">&times;</span>
+        <h2>✨ Nueva Publicación</h2>
+        <form id="newsForm" method="POST" action="/admin/noticias/crear" enctype="multipart/form-data">
+            <div class="form-group"><label>Título</label><input type="text" name="title" class="form-control" required></div>
+            <div class="form-group">
+                <label>Contenido</label>
+                <div id="editor-container" style="height: 250px; background: white;"></div>
+                <input type="hidden" name="content" id="content">
+            </div>
+            <div class="form-group"><label>Imagen</label><input type="file" name="image" accept="image/*" class="form-control"></div>
+            <button type="submit" class="btn-publish">🚀 Publicar Ahora</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .admin-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .btn-new { background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .card-admin { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th, .admin-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+    .img-mini { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
+    .actions { display: flex; gap: 10px; }
+    .btn-edit { color: #003366; } .btn-del { color: #dc3545; }
+    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); overflow-y: auto; }
+    .modal-content { background: white; margin: 5% auto; padding: 30px; border-radius: 15px; width: 80%; max-width: 800px; }
+    .form-group { margin-bottom: 15px; } .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+    .btn-publish { width: 100%; background: #003366; color: white; padding: 15px; border-radius: 8px; border: none; cursor: pointer; }
+</style>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    var quill = new Quill('#editor-container', { theme: 'snow', modules: { toolbar: [['bold', 'italic'], [{ 'header': [1, 2, false] }], ['link', 'image']] } });
+    document.getElementById('newsForm').onsubmit = function() { document.getElementById('content').value = quill.root.innerHTML; };
+</script>
+{% endblock %}

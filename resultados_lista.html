@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="padding: 50px 20px; max-width: 1000px; margin: 0 auto;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+        <a href="/resultados" style="text-decoration: none; color: #888; font-size: 0.9rem; display: flex; align-items: center; transition: 0.2s;" onmouseover="this.style.color='#28a745'">
+            <span style="margin-right: 5px;">←</span> Cambiar año
+        </a>
+        <h2 style="margin: 0; font-weight: 400; color: #444;">Temporada <strong style="color: #28a745;">{{ año_actual }}</strong></h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+        {% for id, e in eventos.items() %}
+        <a href="/resultados/evento/{{ id }}" style="text-decoration: none; color: inherit;">
+            <div style="
+                background: white; 
+                border: 1px solid #f0f0f0; 
+                padding: 20px; 
+                border-radius: 12px; 
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;"
+                onmouseover="this.style.borderColor='#28a745'; this.style.boxShadow='0 5px 20px rgba(0,0,0,0.05)';"
+                onmouseout="this.style.borderColor='#f0f0f0'; this.style.boxShadow='none';"
+            >
+                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #28a745; opacity: 0.6;"></div>
+                
+                <small style="color: #aaa; text-transform: uppercase; letter-spacing: 1px;">{{ e.fecha_evento }}</small>
+                <h3 style="margin: 10px 0; color: #333; font-size: 1.1rem; font-weight: 600;">{{ e.nombre }}</h3>
+                
+                <div style="color: #28a745; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 5px;">
+                    Ver resultados <span>→</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

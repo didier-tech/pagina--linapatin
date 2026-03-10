@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}Registro Deportista{% endblock %}
+
+{% block content %}
+<style>
+    .registro-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .registro-form h2 {
+        color: #1e293b;
+        margin-bottom: 25px;
+        text-align: center;
+        border-bottom: 2px solid #3b82f6;
+        padding-bottom: 10px;
+    }
+
+    .registro-form h3 {
+        color: #3b82f6;
+        font-size: 1.1rem;
+        margin: 25px 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #475569;
+        font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group select {
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Estilo de la Advertencia */
+    .alert-warning {
+        background-color: #fffbeb;
+        border-left: 4px solid #f59e0b;
+        color: #92400e;
+        padding: 12px;
+        margin-top: 8px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .btn-submit {
+        width: 100%;
+        background: #3b82f6;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+        background: #2563eb;
+    }
+
+    .error-msg {
+        background: #fef2f2;
+        color: #dc2626;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 15px;
+        text-align: center;
+        border: 1px solid #fecaca;
+    }
+</style>
+
+<section class="registro-container">
+    <form method="POST" class="registro-form">
+        <h2>Registro de Deportista</h2>
+
+        <h3>👤 Datos del Deportista</h3>
+
+        <div class="form-group">
+            <label>Documento de identidad</label>
+            <input type="text" name="documento" required placeholder="Ingrese el número">
+        </div>
+
+        <div class="form-group">
+            <label>Nombre completo</label>
+            <input type="text" name="nombre" required placeholder="Nombres y apellidos">
+        </div>
+
+        <div class="form-group">
+            <label>Fecha de nacimiento</label>
+            <input type="date" name="fecha_nacimiento" required>
+        </div>
+
+        <div class="form-group">
+            <label>Sexo</label>
+            <select name="sexo" required>
+                <option value="">Seleccione</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Modalidad</label>
+            <select name="modalidad" required>
+                <option value="">Seleccione</option>
+                <option value="escuela">Escuela</option>
+                <option value="novatos">Novatos</option>
+                <option value="ligados">Ligados / Federados</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Club</label>
+            <select name="club_id" required>
+                <option value="">Seleccione un club</option>
+                {% for club in clubes %}
+                    <option value="{{ club.id }}">
+                        {{ club.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            <div class="alert-warning">
+                <strong>¿No encuentras tu club o escuela?</strong><br>
+                Comunícate con la <b>Liga Nariñense de Patinaje</b> para solicitar la habilitación de tu club en el sistema.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Teléfono</label>
+            <input type="text" name="telefono" required>
+        </div>
+
+        <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" name="correo" required>
+        </div>
+
+        <h3>👪 Datos del Acudiente</h3>
+
+        <div class="form-group">
+            <label>Nombre del acudiente</label>
+            <input type="text" name="acudiente_nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label>Teléfono del acudiente</label>
+            <input type="text" name="acudiente_telefono" required>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Finalizar Registro
+        </button>
+
+        {% if error %}
+            <div class="error-msg">
+                {{ error }}
+            </div>
+        {% endif %}
+    </form>
+</section>
+{% endblock %}

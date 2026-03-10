@@ -1,0 +1,60 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+
+<h2>{% if competicion %}Editar Evento{% else %}Nuevo Evento{% endif %}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+    <label>Nombre del evento</label><br>
+    <input type="text" name="nombre" required
+           value="{{ competicion.nombre if competicion }}"><br><br>
+
+    <label>Fecha del evento</label><br>
+    <input type="date" name="fecha_evento" required
+           value="{{ competicion.fecha_evento if competicion }}"><br><br>
+
+    <label>Lugar</label><br>
+    <input type="text" name="lugar" required
+           value="{{ competicion.lugar if competicion }}"><br><br>
+
+    <label>Descripción</label><br>
+    <textarea name="descripcion" rows="4">{{ competicion.descripcion if competicion }}</textarea><br><br>
+
+    <label>Fecha límite ordinaria</label><br>
+    <input type="date" name="fecha_limite_ordinaria" required
+           value="{{ competicion.fecha_limite_ordinaria if competicion }}"><br><br>
+
+    <label>Fecha límite extraordinaria</label><br>
+    <input type="date" name="fecha_limite_extraordinaria" required
+           value="{{ competicion.fecha_limite_extraordinaria if competicion }}"><br><br>
+
+    <label>Valor ordinaria deportista</label><br>
+    <input type="number" name="valor_ordinaria_deportista" required
+           value="{{ competicion.valor_ordinaria_deportista if competicion }}"><br><br>
+
+    <label>Valor ordinaria club</label><br>
+    <input type="number" name="valor_ordinaria_club" required
+           value="{{ competicion.valor_ordinaria_club if competicion }}"><br><br>
+
+    <label>Valor extraordinaria deportista</label><br>
+    <input type="number" name="valor_extraordinaria_deportista" required
+           value="{{ competicion.valor_extraordinaria_deportista if competicion }}"><br><br>
+
+    <label>Valor extraordinaria club</label><br>
+    <input type="number" name="valor_extraordinaria_club" required
+           value="{{ competicion.valor_extraordinaria_club if competicion }}"><br><br>
+
+    <label>Flyer del evento (opcional)</label><br>
+    <input type="file" name="flyer" accept="image/*"><br><br>
+
+    <label>Reglamento (PDF opcional)</label><br>
+    <input type="file" name="reglamento" accept="application/pdf"><br><br>
+
+
+    <button type="submit" class="btn">
+        Guardar Evento
+    </button>
+
+</form>
+
+{% endblock %}

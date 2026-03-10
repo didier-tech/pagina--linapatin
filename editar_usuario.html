@@ -1,0 +1,77 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>✏️ Gestionar Acceso</h1>
+    <p>Modifica el nivel de permisos o restablece la contraseña del usuario.</p>
+</div>
+
+<div class="container-small" style="max-width: 600px; margin-top: 30px;">
+    <div class="card-admin">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+            <div style="background: #e0f2fe; padding: 15px; border-radius: 50%; font-size: 1.5rem;">👤</div>
+            <div>
+                <h2 style="margin: 0; font-size: 1.2rem;">Usuario: @{{ username }}</h2>
+                <span class="badge-rol {{ user.role or user.rol }}">
+                    Rol Actual: {{ (user.role or user.rol) | upper }}
+                </span>
+            </div>
+        </div>
+
+        <form method="POST">
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #444;">Nivel de Acceso (Rol)</label>
+                <select name="role" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff;">
+                    <option value="admin" {% if (user.role or user.rol) == 'admin' %}selected{% endif %}>Administrador (Acceso Total)</option>
+                    <option value="editor" {% if (user.role or user.rol) == 'editor' %}selected{% endif %}>Editor (Contenidos y Eventos)</option>
+                    <option value="colaborador" {% if (user.role or user.rol) == 'colaborador' %}selected{% endif %}>Colaborador (Solo Lectura/Consultas)</option>
+                    <option value="club" {% if (user.role or user.rol) == 'club' %}selected{% endif %}>Club (Panel Institucional)</option>
+                </select>
+                <p style="font-size: 0.8rem; color: #777; margin-top: 5px;">Cuidado: Cambiar el rol afectará los menús que el usuario puede ver.</p>
+            </div>
+
+            <div style="margin-bottom: 30px; background: #fff9f0; padding: 15px; border-radius: 8px; border: 1px dashed #fcd34d;">
+                <label style="display: block; font-weight: bold; margin-bottom: 8px; color: #92400e;">🔑 Restablecer Contraseña</label>
+                <input type="text" name="password" placeholder="Escribe la nueva clave aquí..." 
+                       style="width: 100%; padding: 12px; border: 1px solid #fcd34d; border-radius: 8px;">
+                <p style="font-size: 0.8rem; color: #b45309; margin-top: 8px;">
+                    <strong>Nota:</strong> Si dejas este campo vacío, la contraseña actual no cambiará. Úsalo solo si el usuario olvidó su clave.
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <button type="submit" class="btn-publish" style="flex: 2; cursor: pointer; border: none;">
+                    💾 Guardar Cambios
+                </button>
+                <a href="/admin/usuarios" style="flex: 1; text-align: center; padding: 12px; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 8px; font-weight: bold;">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .badge-rol {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+    .badge-rol.admin { background: #fee2e2; color: #dc2626; }
+    .badge-rol.editor { background: #e0f2fe; color: #0284c7; }
+    .badge-rol.colaborador { background: #f0fdf4; color: #16a34a; }
+    .badge-rol.club { background: #fef3c7; color: #92400e; }
+    
+    .btn-publish {
+        background-color: #28a745;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    .btn-publish:hover { background-color: #218838; }
+</style>
+{% endblock %}
