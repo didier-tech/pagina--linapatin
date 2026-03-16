@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados de Eventos | LINAPATIN{% endblock %}
+
+{% block content %}
+<section class="results-header" style="background: #004085; color: white; padding: 60px 0; text-align: center;">
+    <div class="container">
+        <h1>🏆 Resultados Oficiales</h1>
+        <p>Consulta y descarga los resultados de nuestras competencias y festivales.</p>
+    </div>
+</section>
+
+<section class="results-list" style="padding: 50px 0; min-height: 60vh;">
+    <div class="container">
+        {% if eventos %}
+            <div class="table-responsive" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6; text-align: left;">
+                            <th style="padding: 20px;">Fecha</th>
+                            <th style="padding: 20px;">Nombre del Evento</th>
+                            <th style="padding: 20px;">Documentos Disponibles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for id, e in eventos.items() %}
+                        <tr style="border-bottom: 1px solid #eee; transition: background 0.3s;" onmouseover="this.style.background='#fcfcfc'" onmouseout="this.style.background='white'">
+                            <td style="padding: 20px; color: #666;">
+                                {{ e.fecha_evento if e.fecha_evento else 'Fecha por definir' }}
+                            </td>
+                            <td style="padding: 20px;">
+                                <strong style="color: #333; font-size: 1.1rem;">{{ e.nombre_evento }}</strong>
+                            </td>
+                            <td style="padding: 20px;">
+                                {# Lógica para carga múltiple o archivo único #}
+                                {% if e.resultados_lista %}
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        {% for archi in e.resultados_lista %}
+                                            <a href="{{ url_for('static', filename='uploads/resultados/' ~ archi) }}" 
+                                               target="_blank" 
+                                               class="btn-download"
+                                               style="display: inline-flex; align-items: center; color: #007bff; text-decoration: none; font-weight: 500;">
+                                               <span style="margin-right: 5px;">📄</span> {{ archi.split('_')[-1] }} 
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% elif e.resultado_pdf %}
+                                    <a href="{{ url_for('static', filename='uploads/resultados/' ~ e.resultado_pdf) }}" 
+                                       target="_blank" 
+                                       style="color: #28a745; text-decoration: none; font-weight: bold; display: flex; align-items: center;">
+                                       <span style="margin-right: 5px;">📥</span> Descargar Resultados (PDF)
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 40px; background: #fdfdfd; border: 2px dashed #ddd; border-radius: 10px;">
+                <p style="color: #999; font-size: 1.2rem;">Por el momento no se han publicado resultados de eventos recientes.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .btn-download:hover {
+        text-decoration: underline !important;
+        color: #0056b3 !important;
+    }
+    .table-responsive {
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}

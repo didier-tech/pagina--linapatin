@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Información General | LINAPATIN{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="info-grid">
+        {% for item in info %}
+        <div class="info-card">
+            <h3>{{ item.titulo }}</h3>
+            <a href="{{ url_for('static', filename='uploads/info_general/' ~ item.archivo) }}"
+               target="_blank"
+               class="info-btn">
+               CONSULTAR
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

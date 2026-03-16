@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Inscripción | LINAPATIN{% endblock %}
+
+{% block content %}
+<section class="container">
+
+<h2>Inscripción a {{ competencia.nombre }}</h2>
+
+<form method="POST" action="/competencias/{{ competencia.id }}/inscribirse">
+
+    <label>Documento de identidad</label>
+    <input type="text" name="documento" required>
+
+    <button type="submit" class="btn">
+        Inscribirme
+    </button>
+
+</form>
+
+</section>
+{% endblock %}

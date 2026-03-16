@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="padding: 80px 20px; text-align: center; max-width: 800px; margin: 0 auto;">
+    <h1 style="font-weight: 300; color: #222; letter-spacing: -1px; margin-bottom: 10px;">Archivo de Resultados</h1>
+    <p style="color: #888; font-size: 1rem; margin-bottom: 50px;">Selecciona la temporada que deseas consultar</p>
+
+    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        {% for anio in años %}
+        <a href="/resultados/{{ anio }}" style="text-decoration: none;">
+            <div style="
+                background: white; 
+                color: #28a745; 
+                padding: 15px 35px; 
+                border-radius: 50px; 
+                font-size: 1.2rem; 
+                font-weight: 600; 
+                border: 1px solid #28a745;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 10px;"
+                onmouseover="this.style.background='#28a745'; this.style.color='white'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 5px 15px rgba(40,167,69,0.2)';"
+                onmouseout="this.style.background='white'; this.style.color='#28a745'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"
+            >
+                <span style="font-size: 1rem; opacity: 0.7;">🏆</span>
+                {{ anio }}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if not años %}
+        <p style="color: #bbb; margin-top: 50px; font-style: italic;">No hay temporadas registradas aún.</p>
+    {% endif %}
+</div>
+{% endblock %}

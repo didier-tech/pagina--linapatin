@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Historial de Noticias | LINAPATIN{% endblock %}
+
+{% block content %}
+<section style="padding: 60px 0; background-color: #f4f7f6; min-height: 85vh;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+        
+        <header style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color: #003366; font-size: 2.5rem; font-weight: 800;">Historial de Noticias</h1>
+            <p style="color: #666;">Explora todas nuestras publicaciones anteriores</p>
+        </header>
+
+        {% if noticias %}
+            <div class="news-grid-fixed">
+                {% for id, n in noticias.items() %}
+                <article class="news-card-compact">
+                    <div class="card-img-container">
+                        {% if n.image %}
+                            <img src="{{ url_for('static', filename='uploads/noticias/' ~ n.image) }}">
+                        {% else %}
+                            <div class="card-img-placeholder"><i class="fas fa-image fa-2x"></i></div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <span class="card-date">📅 {{ n.created_at }}</span>
+                        <h3 class="card-title">{{ n.title }}</h3>
+                        <div class="card-text">{{ n.content | striptags | truncate(100) }}</div>
+                        <div style="margin-top: auto;">
+                            <a href="/news/{{ id }}" class="card-btn">Leer Noticia Completa</a>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 50px; background: white; border-radius: 15px;">
+                <p style="color: #999; font-size: 1.2rem;">Aún no hay noticias en el archivo.</p>
+            </div>
+        {% endif %}
+
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="/" style="text-decoration: none; color: #003366; font-weight: bold;">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .news-grid-fixed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .news-card-compact { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #eee; display: flex; flex-direction: column; height: 100%; transition: 0.3s; }
+    .card-img-container { width: 100%; height: 160px; overflow: hidden; background: #f0f0f0; }
+    .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+    .card-img-placeholder { height: 160px; display: flex; align-items: center; justify-content: center; color: #ccc; }
+    .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-date { color: #888; font-size: 0.75rem; font-weight: bold; margin-bottom: 8px; }
+    .card-title { margin: 0 0 10px 0; color: #222; font-size: 1.1rem; line-height: 1.3; font-weight: 700; height: 2.8rem; overflow: hidden; }
+    .card-text { color: #666; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px; height: 3.8rem; overflow: hidden; }
+    .card-btn { display: block; text-align: center; background: #003366; color: #fff; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+    .news-card-compact:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    
+    @media (max-width: 992px) { .news-grid-fixed { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .news-grid-fixed { grid-template-columns: 1fr; } }
+</style>
+{% endblock %}

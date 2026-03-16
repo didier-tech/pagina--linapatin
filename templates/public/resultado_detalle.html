@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="padding: 40px 0;">
+    <a href="/resultados" style="text-decoration: none; color: #007bff; font-weight: 500; display: inline-flex; align-items: center; margin-bottom: 20px;">
+        <span style="margin-right: 5px;">←</span> Volver al listado
+    </a>
+    
+    <div style="background: white; padding: 35px; border-radius: 12px; border: 1px solid #eaeaea; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
+        <h2 style="color: #333; font-size: 1.6rem; margin: 0 0 10px 0;">{{ evento.nombre }}</h2>
+        <p style="color: #888; margin-bottom: 25px;">Fecha: {{ evento.fecha_evento }}</p>
+        
+        <div style="height: 1px; background: #eee; width: 100%; margin-bottom: 30px;"></div>
+
+        <h4 style="margin-bottom: 20px; color: #333;">📄 RESULTADOS</h4>
+        
+        <div style="display: grid; gap: 10px;">
+            {% if evento.resultados_lista %}
+                {% for archi in evento.resultados_lista %}
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                    
+                    <span style="font-weight: 500; color: #444; word-break: break-all; margin-right: 10px;">
+                        {# 1. Corta el prefijo res_ID_  |  2. Cambia '_' por ' ' #}
+                        {{ archi.split('_', 2)[-1] | replace('_', ' ') }}
+                    </span>
+                    
+                    <a href="{{ url_for('static', filename='uploads/resultados/' ~ archi) }}" 
+                       target="_blank" 
+                       style="background: #004085; color: white; padding: 8px 18px; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: bold; white-space: nowrap;">
+                       Descargar
+                    </a>
+                </div>
+                {% endfor %}
+            {% elif evento.resultado_pdf %}
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 500; color: #444;">
+                        {{ evento.resultado_pdf.split('_', 2)[-1] | replace('_', ' ') }}
+                    </span>
+                    <a href="{{ url_for('static', filename='uploads/resultados/' ~ evento.resultado_pdf) }}" 
+                       target="_blank" 
+                       style="background: #28a745; color: white; padding: 8px 18px; border-radius: 4px; text-decoration: none; font-weight: bold;">
+                       Descargar
+                    </a>
+                </div>
+            {% else %}
+                <p style="color: #999; font-style: italic;">No hay archivos cargados para este evento.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
