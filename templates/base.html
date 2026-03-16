@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LINAPATIN{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Estilos existentes */
+        .nav { display: flex; align-items: center; justify-content: space-between; }
+        .nav-menu { display: flex; align-items: center; gap: 20px; }
+        .nav-item.dropdown { position: relative; }
+        .dropdown-menu { 
+            display: none; position: absolute; background: white; min-width: 220px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 1000; border-radius: 8px; top: 100%;
+        }
+        .nav-item.dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu a { color: #333 !important; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9rem; text-align: left; }
+        .dropdown-menu a:hover { background-color: #f1f1f1; border-radius: 8px; }
+
+        .nav-menu .btn { background-color: #28a745; color: white !important; padding: 8px 20px !important; border-radius: 50px; font-weight: bold; transition: transform 0.2s; }
+        .nav-menu .btn:hover { transform: scale(1.05); background-color: #218838; }
+
+        .badge-rol { padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; }
+        .badge-rol.admin { background: #dc2626; color: white; }
+        .badge-rol.deportista { background: #2563eb; color: white; }
+        .badge-rol.club { background: #92400e; color: white; }
+    </style>
+</head>
+
+<body>
+<div class="top-bar">
+    <div class="container">
+        <div class="top-links">
+        {% if session.get("user") %}
+            {% set urrol = session.user.rol or session.user.role %}
+            
+            <span style="color: #fff; margin-right: 15px; font-size: 0.85rem;">
+                <i class="fas fa-user-circle"></i> {{ session.user.usuario }} 
+                <span class="badge-rol {{ urrol }}">{{ urrol }}</span>
+            </span>
+
+            {% if urrol in ["admin", "editor", "colaborador"] %}
+                <a href="/admin/inicio"><b><i class="fas fa-cog"></i> Panel Gestión</b></a>
+            {% elif urrol == "club" %}
+                <a href="/club"><b><i class="fas fa-shield-alt"></i> Mi Club</b></a>
+            {% elif urrol == "deportista" %}
+                <a href="/perfil"><b><i class="fas fa-user"></i> Mi Perfil</b></a>
+            {% endif %}
+
+            <a href="/perfil/cambiar-password" style="margin-left: 10px;"><i class="fas fa-key"></i> Cambiar Clave</a>
+
+            <a href="/logout" style="color: #ffbaba; margin-left: 10px;"><i class="fas fa-sign-out-alt"></i> Salir</a>
+        {% else %}
+            <a href="/login"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="container nav">
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" draggable="false">
+        </a>
+
+        <nav id="navMenu" class="nav-menu">
+            <a href="/">Inicio</a>
+            
+            <div class="nav-item dropdown">
+                <a href="#">Liga ▾</a>
+                <div class="dropdown-menu">
+                    <a href="/liga/comite-ejecutivo">Comité Ejecutivo</a>
+                    <a href="/liga/comisiones">Comisiones</a>
+                    <a href="/liga/informacion-general">Información General</a>
+                </div>
+            </div>
+
+            <div class="nav-item dropdown">
+                <a href="{{ url_for('eventos_publicos') }}">Eventos ▾</a>
+                <div class="dropdown-menu">
+                    <a href="{{ url_for('eventos_publicos') }}">Próximas Competencias</a>
+                    <a href="/resultados">🏆 Resultados</a>
+                </div>
+            </div>
+
+            <a href="/noticias">Noticias</a>
+            <a href="/calendario">Calendario</a>
+
+            {% if session.get("user") and (session.user.rol or session.user.role) == "deportista" %}
+                <a href="/perfil" class="btn" style="background-color: #003366;">Mi Panel</a>
+            {% else %}
+                <a href="/afiliate" class="btn">Afíliate</a>
+            {% endif %}
+        </nav>
+        <button id="mobileBtn" class="mobile-toggle">☰</button>
+    </div>
+</header>
+
+<main>
+    <div class="container flash-messages" style="margin-top: 20px;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category if category != 'error' else 'danger' }}" 
+                   style="padding: 15px; margin-bottom: 20px; border-radius: 8px; background: {% if category=='success' %}#d4edda{% else %}#f8d7da{% endif %}; color: {% if category=='success' %}#155724{% else %}#721c24{% endif %}; border: 1px solid {% if category=='success' %}#c3e6cb{% else %}#f5c6cb{% endif %};">
+                <i class="fas {% if category=='success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i> {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <div class="footer-contact">
+            <p>📞 (+57) 323 591 7510 - Carrera 9 # 15 29</p>
+            <p>✉️ ligapatinajenarino@gmail.com</p>
+        </div>
+        <p class="footer-copy">© 2026 LIGA NARIÑENSE DE PATINAJE</p>
+    </div>
+</footer>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

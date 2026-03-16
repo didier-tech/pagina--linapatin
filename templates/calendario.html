@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Calendario | LINAPATIN{% endblock %}
+
+{% block content %}
+
+<section class="container">
+
+    <div class="calendario-header">
+        <h1>Calendario Oficial</h1>
+
+        {% if archivo %}
+            <a href="{{ archivo }}" download class="btn-descargar">
+                Descargar calendario
+            </a>
+        {% endif %}
+    </div>
+
+    {% if archivo %}
+        <iframe src="{{ archivo }}" width="100%" height="600"></iframe>
+    {% else %}
+        <p>No hay calendario publicado.</p>
+    {% endif %}
+
+</section>
+
+
+{% endblock %}
