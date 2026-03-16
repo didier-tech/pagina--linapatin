@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #003366, #0059b3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-box {
+    background: white;
+    padding: 35px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 25px;
+    color: #003366;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #0059b3;
+}
+
+.login-note {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.register-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+
+.register-text a {
+    color: #1e3c72;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}

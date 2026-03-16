@@ -1,0 +1,32 @@
+.registro-form {
+    max-width: 520px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.registro-form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.registro-form input,
+.registro-form select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+.registro-form h3 {
+    margin-top: 25px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.05rem;
+}
+
+.registro-form .btn {
+    margin-top: 25px;
+}

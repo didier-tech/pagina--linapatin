@@ -1,0 +1,144 @@
+/* ----- PANEL DEPORTISTA ----- */
+
+body {
+    background-color: #f4f6f9;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.panel-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* Cabecera */
+.panel-header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.panel-header p {
+    margin: 5px 0 0;
+    opacity: 0.9;
+}
+
+/* Flash messages */
+.flash {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.flash.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Tarjetas */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #1e3c72;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* Datos */
+.info-item {
+    margin: 8px 0;
+}
+
+.info-item span {
+    font-weight: bold;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    margin-top: 10px;
+    background-color: #1e3c72;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: #16325c;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+table th, table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f0f2f5;
+    text-align: left;
+}
+
+/* Corregir desbordes en tablas */
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+table td {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+
+/* ===== COLORES ESTADO DE PAGO ===== */
+
+tr.pago-pagado {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+tr.pago-pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+tr.pago-rechazado,
+tr.pago-vencido {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+

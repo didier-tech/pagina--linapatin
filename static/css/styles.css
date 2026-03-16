@@ -1,0 +1,413 @@
+:root {
+    --blue: #003366;
+    --green:  #7acc00; 
+    --gray: #f4f4f4;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.top-bar {
+    background: var(--blue);
+    color: white;
+    font-size: 14px;
+    padding: 8px 0;
+}
+
+.top-bar a {
+    color: #ddd;
+    margin-left: 10px;
+}
+
+header {
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--blue);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu > a,
+.nav-menu > .nav-item {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+.btn {
+    background: var(--green);
+    color: white;
+    padding: 8px 15px;
+}
+
+.hero {
+    background: var(--blue);
+    color: white;
+    padding: 100px 0;
+}
+
+.hero-tag {
+    background: var(--green);
+    padding: 5px 10px;
+}
+
+.news {
+    padding: 60px 0;
+    background: var(--gray);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.news-card {
+    background: white;
+    padding: 20px;
+}
+
+.modalities {
+    background: var(--blue);
+    color: white;
+    padding: 60px 0;
+}
+
+.modalities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.mod-item {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+footer {
+    background: #1a1a1a;
+    color: #aaa;
+    text-align: center;
+    padding: 20px;
+}
+
+.mobile-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+    }
+    .mobile-toggle {
+        display: block;
+    }
+}
+
+.news-card img {
+    max-width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    display: block;
+    margin: 10px 0;
+}
+
+.news-card h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #003366;
+}
+
+.hero-slider {
+    position: relative;
+    max-width: 1200px;
+    margin: 40px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #002b5c;
+}
+
+.hero-slide {
+    display: none;
+    position: relative;
+    min-height: 380px;
+}
+
+.hero-slide.active {
+    display: block;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-text {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+}
+
+.hero-slide.no-image {
+    background: linear-gradient(135deg, #003366, #0055aa);
+}
+
+.hero-text h1 {
+    margin: 0 0 10px;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero-img {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+}
+
+.hero-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.hero-btn.prev { left: 10px; }
+.hero-btn.next { right: 10px; }
+
+.logo img {
+    height: 75px;
+    max-height: 75px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .logo img { height: 40px; max-width: 120px; }
+}
+
+.footer-contact { margin-bottom: 10px; font-size: 14px; color: #ddd; }
+.footer-copy { font-size: 13px; color: #aaa; }
+
+.calendario-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.btn-descargar {
+    background-color: #0056b3;
+    color: #ffffff;
+    padding: 10px 18px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #0b3c5d;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        z-index: 9999;
+    }
+    .mobile-bottom-nav a { color: #fff; text-decoration: none; font-size: 14px; }
+}
+
+.clubes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.club-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    background: #f0f7ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.club-logo { width: 120px; height: 120px; object-fit: contain; }
+
+.nav-item { position: relative; }
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #ffffff;
+    min-width: 220px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+.dropdown:hover .dropdown-menu { display: flex; }
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 40px;
+    text-align: center;
+}
+
+.info-btn {
+    display: inline-block;
+    background: #99c211;
+    color: white;
+    padding: 10px 22px;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.registro-form { max-width: 520px; margin: 0 auto; }
+.registro-form input, .registro-form select { width: 100%; padding: 10px; margin-bottom: 10px; }
+
+.alert { padding: 15px; margin-bottom: 20px; border-radius: 4px; text-align: center; }
+.alert-danger { background-color: #f8d7da; color: #721c24; }
+.alert-success { background-color: #d4edda; color: #155724; }
+
+/* ===============================
+   ADMIN - GESTIÓN DE NOTICIAS 
+   =============================== */
+
+.noticias-grid { 
+    display: grid; 
+    /* Ajuste de tamaño solicitado: Formulario 450px y Lista máximo 350px */
+    grid-template-columns: 450px minmax(250px, 350px); 
+    gap: 30px; 
+    margin-top: 20px; 
+    justify-content: center; 
+    align-items: start;
+}
+
+.lista-noticias {
+    width: 100%;
+}
+
+.news-card-admin { 
+    background: white; 
+    border-radius: 10px; 
+    margin-bottom: 15px; 
+    border: 1px solid #eee; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.news-card-content { 
+    display: flex; 
+    gap: 12px; 
+    padding: 12px; 
+    align-items: center; /* Centra verticalmente la foto y el texto */
+}
+
+.news-thumb-admin, .news-thumb-placeholder-admin {
+    width: 70px; 
+    height: 70px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.news-thumb-placeholder-admin {
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #999;
+}
+
+.news-details-admin { 
+    flex: 1; 
+    min-width: 0; /* Evita que el texto rompa el layout */
+}
+
+.news-details-admin h3 {
+    margin: 0 0 4px 0 !important;
+    font-size: 0.95rem !important;
+    text-align: left !important;
+    color: #333 !important;
+}
+
+.news-meta-admin { 
+    font-size: 0.75rem; 
+    color: #777; 
+    line-height: 1.2;
+}
+
+.news-actions-admin {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-edit-small { background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 12px; }
+.btn-delete-small { background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 12px; }
+
+.btn-publish { background: #007bff; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+@media (max-width: 1000px) {
+    .noticias-grid { grid-template-columns: 1fr; }
+}
+
+/* CSS FIN */
