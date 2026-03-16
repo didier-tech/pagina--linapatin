@@ -1,0 +1,115 @@
+{
+    "1": {
+        "id": "1",
+        "nombre": "ESCUELA LIGA DE PATINAJE",
+        "contacto": "PRONTO",
+        "correo": "Ligapatinajenarino@gmail.com",
+        "logo": "1_LOGO-LIGA-RGB.jpg.jpeg",
+        "destacado": true,
+        "created_at": "2026-01-23 14:22:04",
+        "updated_at": "2026-02-10 15:46:29"
+    },
+    "2": {
+        "id": "2",
+        "nombre": "PATIN GALERAS",
+        "contacto": "3104515240",
+        "correo": "clubpatingaleras@gmail.com",
+        "logo": "LOGOCPG2025.png",
+        "destacado": false,
+        "created_at": "2026-01-23 14:23:20"
+    },
+    "3": {
+        "id": "3",
+        "nombre": "SKATERS DEL SUR",
+        "contacto": "3120000",
+        "correo": "skaters@gmail.com",
+        "logo": "logo_SKATERS_2024.png",
+        "destacado": false,
+        "created_at": "2026-01-23 14:23:48"
+    },
+    "5": {
+        "id": "5",
+        "nombre": "ASES DEL PATIN ELITE",
+        "contacto": "234234",
+        "correo": "ASFDAS@HOTMAIL.COM",
+        "logo": "",
+        "destacado": false,
+        "created_at": "2026-01-23 14:24:55"
+    },
+    "6": {
+        "id": "6",
+        "nombre": "CHAMPIONS SKATE",
+        "contacto": "24234",
+        "correo": "CHAM@GMAIL.COM",
+        "logo": "6_WhatsApp_Image_2026-02-10_at_5.41.32_PM.jpeg",
+        "destacado": false,
+        "created_at": "2026-01-23 14:25:07",
+        "updated_at": "2026-02-10 17:43:14"
+    },
+    "7": {
+        "id": "7",
+        "nombre": "JR WHEELS",
+        "contacto": "11111111",
+        "correo": "ASDFASDFASKLFJASKLF@HOTMAIL.COM",
+        "logo": "7_JR_LIGA.png",
+        "destacado": false,
+        "created_at": "2026-01-23 14:25:38",
+        "updated_at": "2026-02-10 15:52:37"
+    },
+    "8": {
+        "id": "8",
+        "nombre": "WARRIOR TEAM",
+        "contacto": "234234",
+        "correo": "ASFAS@HOTMAIL.COM",
+        "logo": "warrior.jpeg",
+        "destacado": false,
+        "created_at": "2026-01-23 15:18:56"
+    },
+    "9": {
+        "id": "9",
+        "nombre": "RUEDAS DE FUEGO - IPIALES",
+        "contacto": "34234",
+        "correo": "ASFQG@GMAIL.COM",
+        "logo": "9_RUEDAS_DE_FUEGO_logo.png",
+        "destacado": false,
+        "created_at": "2026-01-23 15:19:29",
+        "updated_at": "2026-02-10 15:51:26"
+    },
+    "10": {
+        "id": "10",
+        "nombre": "ESTRELLAS DEL PACIFICO - TUMACO",
+        "contacto": "234234",
+        "correo": "ASDFAF@GMAIL.COM",
+        "logo": "estrellas_del_pacifico.jpeg",
+        "destacado": false,
+        "created_at": "2026-01-23 15:19:47"
+    },
+    "11": {
+        "id": "11",
+        "nombre": "PATIN NARIÑO",
+        "contacto": "2342",
+        "correo": "ASASF@GMAIL.COM",
+        "logo": "Logo_Patin_Narino.png",
+        "destacado": false,
+        "created_at": "2026-01-23 15:20:15"
+    },
+    "12": {
+        "id": "12",
+        "nombre": "DEPORTIVO PASTO",
+        "contacto": "234234",
+        "correo": "ASDFASF@GMAIL.COM",
+        "logo": "Logo_club2.png",
+        "destacado": false,
+        "created_at": "2026-01-23 15:20:33"
+    },
+    "1770756006": {
+        "id": "1770756006",
+        "nombre": "ASES DEL PATIN",
+        "contacto": "3333",
+        "correo": "ASDF@GMAIL.COM",
+        "logo": "1770756006_WhatsApp_Image_2026-02-10_at_3.55.48_PM.jpeg",
+        "destacado": false,
+        "created_at": "2026-02-10 15:40:06",
+        "updated_at": "2026-02-10 15:56:06"
+    }
+}

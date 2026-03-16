@@ -1,0 +1,35 @@
+{
+    "1": {
+        "id": "1",
+        "nombre": "1er CHEQUEO DEPARTAMENTAL 2026",
+        "fecha_evento": "2026-02-13",
+        "lugar": "PATINODROMO PASTO",
+        "descripcion": "CHEQUEO DEPARTAMENTAL PARA CATEGORIAS JUNIOR, PREJUVENIL, JUVENIL Y MAYORES ASPIRANTES A CONFORMAR LA SELECCION NARIÑO DE PATINAJE INTERLIGAS. ",
+        "fecha_limite_ordinaria": "2026-02-12",
+        "fecha_limite_extraordinaria": "2026-02-13",
+        "valor_ordinaria_deportista": 0,
+        "valor_ordinaria_club": 0,
+        "valor_extraordinaria_deportista": 0,
+        "valor_extraordinaria_club": 0,
+        "flyer": "ChatGPT_Image_10_feb_2026_15_32_43.png",
+        "created_at": "2026-01-25 15:36:08",
+        "resultado_pdf": "",
+        "resultados_lista": []
+    },
+    "3": {
+        "id": "3",
+        "nombre": "RANKING DEPARTAMENTAL MARZO 2026",
+        "fecha_evento": "2026-03-20",
+        "lugar": "PASTO",
+        "descripcion": "Ranking Departamental de Patinaje y evaluativo, puntuable para deportistas con miras a conformacion de Seleccion Nariño de Patinaje Campeonato Nacional Interligas",
+        "fecha_limite_ordinaria": "2026-03-02",
+        "fecha_limite_extraordinaria": "2026-02-06",
+        "valor_ordinaria_deportista": 80000,
+        "valor_ordinaria_club": 0,
+        "valor_extraordinaria_deportista": 100000,
+        "valor_extraordinaria_club": 0,
+        "flyer": "ChatGPT_Image_10_feb_2026_16_57_01.png",
+        "reglamento": "RESOLUCION_PARAMETROS_ESCOGENCIA_INTERLIGAS_2026.pdf",
+        "created_at": "08/02/2026 17:25"
+    }
+}
