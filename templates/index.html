@@ -4,77 +4,382 @@
 
 {% block content %}
 
+<!-- HERO -->
+
 <section class="hero-slider">
-    {% if heroes %}
-        {% for h in heroes %}
-        <div class="hero-slide {% if not h.image %}no-image{% endif %}" id="hero-{{ h.id }}" style="background-image: url('/static/uploads/hero/{{ h.image }}'); background-size: cover; background-position: center;">
-            <div class="hero-overlay" style="display: flex; width: 100%; height: 100%; background: rgba(0,0,0,0.3); justify-content: {{ h.text_align if h.text_align else 'center' }}; align-items: {{ h.content_valign if h.content_valign else 'center' }};">
-                {% if h.title or h.subtitle %}
-                <div class="hero-text" style="padding: 40px; max-width: 80%; text-align: {{ 'center' if h.text_align == 'center' else ('left' if h.text_align == 'flex-start' else 'right') }};">
-                    {% if h.title %}<h1 style="color: {{ h.text_color if h.text_color else '#ffffff' }}; font-size: {{ h.font_size if h.font_size else '45' }}px; margin: 0;">{{ h.title }}</h1>{% endif %}
-                    {% if h.subtitle %}<p style="color: {{ h.text_color if h.text_color else '#ffffff' }}; font-size: 1.2rem; margin-top: 10px;">{{ h.subtitle }}</p>{% endif %}
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <div class="hero-slide" style="background: #333; height: 400px; display: flex; align-items: center; justify-content: center;"><h1 style="color: white;">Bienvenidos a LINAPATIN</h1></div>
-    {% endif %}
-    <button class="hero-btn prev">‹</button><button class="hero-btn next">›</button>
+
+{% if heroes %}
+
+{% for h in heroes %}
+
+<div class="hero-slide {% if not h.image %}no-image{% endif %}"
+style="background-image:url('/static/uploads/hero/{{ h.image }}');">
+
+<div class="hero-overlay">
+
+<div class="hero-content"
+style="text-align:{{ 'center' if h.text_align == 'center' else ('left' if h.text_align == 'flex-start' else 'right') }}">
+
+{% if h.title %}
+<h1 style="color:{{ h.text_color if h.text_color else '#fff' }}">
+{{ h.title }}
+</h1>
+{% endif %}
+
+{% if h.subtitle %}
+<p style="color:{{ h.text_color if h.text_color else '#fff' }}">
+{{ h.subtitle }}
+</p>
+{% endif %}
+
+<div class="hero-actions">
+<a href="/eventos" class="hero-btn-main">Próximas Competencias</a>
+<a href="/afiliate" class="hero-btn-alt">Afiliar Deportista</a>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="hero-slide default-hero">
+
+<div class="hero-overlay">
+
+<div class="hero-content center">
+
+<h1>Bienvenidos a la Liga Nariñense de Patinaje</h1>
+
+<p>Ranking Departamental • Competencias • Formación Deportiva</p>
+
+<div class="hero-actions">
+<a href="/eventos" class="hero-btn-main">Ver Eventos</a>
+<a href="/afiliate" class="hero-btn-alt">Afiliarse</a>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endif %}
+
+<button class="hero-btn prev">‹</button>
+<button class="hero-btn next">›</button>
+
 </section>
 
-<section class="news" style="padding: 50px 0; background-color: #f8f9fa;">
-    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
-        <h2 style="text-align: center; margin-bottom: 35px; color: #003366; font-size: 1.8rem; font-weight: 800; text-transform: uppercase;">Noticias Recientes</h2>
 
-        {% if noticias %}
-            <div class="news-grid-fixed">
-                {% for id, n in noticias.items() %}
-                <article class="news-card-compact">
-                    <div class="card-img-container">
-                        {% if n.image %}
-                            <img src="{{ url_for('static', filename='uploads/noticias/' ~ n.image) }}">
-                        {% else %}
-                            <div class="card-img-placeholder"><i class="fas fa-image fa-2x"></i></div>
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <span class="card-date">📅 {{ n.created_at }}</span>
-                        <h3 class="card-title">{{ n.title }}</h3>
-                        <div class="card-text">{{ n.content | striptags | truncate(80) }}</div>
-                        <div style="margin-top: auto;">
-                            <a href="/news/{{ id }}" class="card-btn">Leer más</a>
-                        </div>
-                    </div>
-                </article>
-                {% endfor %}
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="/noticias" style="display: inline-block; padding: 12px 30px; background: transparent; border: 2px solid #003366; color: #003366; text-decoration: none; font-weight: bold; border-radius: 8px; transition: 0.3s;">
-                    Ver Historial de Noticias
-                </a>
-            </div>
-        {% else %}
-            <p style="text-align: center; color: #999;">No hay noticias publicadas.</p>
-        {% endif %}
-    </div>
+<!-- SECCIÓN NOTICIAS -->
+
+<section class="news-section">
+
+<div class="container">
+
+<h2 class="section-title">Noticias Recientes</h2>
+
+{% if noticias %}
+
+<div class="news-grid">
+
+{% for id, n in noticias.items() %}
+
+<article class="news-card">
+
+<div class="news-img">
+
+{% if n.image %}
+
+<img src="{{ url_for('static', filename='uploads/noticias/' ~ n.image) }}">
+
+{% else %}
+
+<div class="card-img-placeholder">
+<i class="fas fa-image"></i>
+</div>
+
+{% endif %}
+
+</div>
+
+<div class="news-body">
+
+<span class="news-date">📅 {{ n.created_at }}</span>
+
+<h3>{{ n.title }}</h3>
+
+<p>
+{{ n.content | striptags | truncate(110) }}
+</p>
+
+<a href="/news/{{ id }}" class="news-btn">
+Leer noticia
+</a>
+
+</div>
+
+</article>
+
+{% endfor %}
+
+</div>
+
+<div class="news-more">
+
+<a href="/noticias" class="btn-outline">
+Ver todas las noticias
+</a>
+
+</div>
+
+{% else %}
+
+<p class="no-news">
+No hay noticias publicadas.
+</p>
+
+{% endif %}
+
+</div>
+
 </section>
+
+
+<!-- ESTILOS -->
 
 <style>
-    .news-grid-fixed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
-    .news-card-compact { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; height: 100%; max-width: 350px; transition: 0.3s; }
-    .card-img-container { width: 100%; height: 160px; overflow: hidden; background: #f0f0f0; }
-    .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
-    .card-img-placeholder { height: 160px; display: flex; align-items: center; justify-content: center; color: #ccc; }
-    .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
-    .card-date { color: #888; font-size: 0.75rem; font-weight: bold; margin-bottom: 8px; }
-    .card-title { margin: 0 0 10px 0; color: #222; font-size: 1.1rem; line-height: 1.3; font-weight: 700; height: 2.8rem; overflow: hidden; }
-    .card-text { color: #666; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px; height: 3.8rem; overflow: hidden; }
-    .card-btn { display: block; text-align: center; background: #003366; color: #fff; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
-    .news-card-compact:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.12); }
-    @media (max-width: 992px) { .news-grid-fixed { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .news-grid-fixed { grid-template-columns: 1fr; } .news-card-compact { max-width: 100%; } }
+
+/* HERO */
+
+.hero-slider{
+position:relative;
+height:500px;
+overflow:hidden;
+}
+
+.hero-slide{
+height:500px;
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.hero-overlay{
+background:rgba(0,0,0,0.45);
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:40px;
+}
+
+.hero-content{
+max-width:800px;
+}
+
+.hero-content h1{
+font-size:48px;
+font-weight:800;
+margin-bottom:10px;
+}
+
+.hero-content p{
+font-size:20px;
+margin-bottom:20px;
+opacity:0.95;
+}
+
+.hero-actions{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.hero-btn-main{
+background:#16a34a;
+color:white;
+padding:12px 26px;
+border-radius:40px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.hero-btn-alt{
+background:white;
+color:#003366;
+padding:12px 26px;
+border-radius:40px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.hero-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,0.5);
+color:white;
+border:none;
+font-size:30px;
+padding:10px 15px;
+cursor:pointer;
+}
+
+.hero-btn.prev{left:10px}
+.hero-btn.next{right:10px}
+
+
+/* NOTICIAS */
+
+.news-section{
+padding:70px 0;
+background:#f4f6fb;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:40px;
+color:#003366;
+font-size:28px;
+font-weight:800;
+text-transform:uppercase;
+}
+
+.news-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+}
+
+.news-card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 6px 16px rgba(0,0,0,0.08);
+transition:0.25s;
+display:flex;
+flex-direction:column;
+}
+
+.news-card:hover{
+transform:translateY(-6px);
+box-shadow:0 14px 26px rgba(0,0,0,0.15);
+}
+
+.news-img{
+height:180px;
+overflow:hidden;
+}
+
+.news-img img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.news-body{
+padding:20px;
+display:flex;
+flex-direction:column;
+flex-grow:1;
+}
+
+.news-date{
+font-size:12px;
+color:#888;
+margin-bottom:6px;
+}
+
+.news-body h3{
+font-size:18px;
+margin-bottom:10px;
+}
+
+.news-body p{
+font-size:14px;
+color:#555;
+flex-grow:1;
+}
+
+.news-btn{
+margin-top:15px;
+background:#003366;
+color:white;
+text-decoration:none;
+padding:10px;
+border-radius:6px;
+text-align:center;
+font-weight:bold;
+font-size:14px;
+}
+
+.news-more{
+text-align:center;
+margin-top:40px;
+}
+
+.btn-outline{
+border:2px solid #003366;
+padding:12px 28px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+color:#003366;
+}
+
+.no-news{
+text-align:center;
+color:#777;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.news-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.hero-content h1{
+font-size:38px;
+}
+
+}
+
+@media(max-width:600px){
+
+.news-grid{
+grid-template-columns:1fr;
+}
+
+.hero-slider{
+height:400px;
+}
+
+.hero-slide{
+height:400px;
+}
+
+.hero-content h1{
+font-size:30px;
+}
+
+.hero-content p{
+font-size:16px;
+}
+
+}
+
 </style>
+
 {% endblock %}
