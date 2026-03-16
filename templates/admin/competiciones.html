@@ -1,0 +1,56 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+
+    <h2 style="margin:0;">🏁 Competiciones</h2>
+
+    <div>
+        {% if role == 'admin' %}
+        <a href="/admin/inscripciones-eventos"
+           class="btn"
+           style="background:#0a7cff; color:white; padding:8px 14px; border-radius:6px; text-decoration:none; margin-right: 10px;">
+        📋 Ver inscritos a eventos
+        </a>
+        {% endif %}
+
+        <a href="/admin/competiciones/nueva"
+           style="background:#F52727; color:white; padding:8px 14px; border-radius:6px; text-decoration:none;"> 
+            + Nueva Competencia
+        </a>
+    </div>
+
+</div>
+
+<table width="100%" border="1" cellpadding="8" style="border-collapse: collapse; border: 1px solid #ddd;">
+<tr style="background: #f4f4f4;">
+    <th>Nombre</th>
+    <th>Fecha</th>
+    <th>Lugar</th>
+    <th>Acciones</th>
+</tr>
+
+{% for id, c in competiciones.items() %}
+<tr>
+    <td>{{ c.nombre }}</td>
+    <td>{{ c.fecha_evento }}</td>
+    <td>{{ c.lugar }}</td>
+    <td>
+        <a href="/admin/competiciones/editar/{{ id }}" style="color: #003366; font-weight: bold; text-decoration: none;">
+            <i class="fas fa-edit"></i> Editar
+        </a> 
+        
+        {% if role == 'admin' %}
+         | <a href="/admin/competiciones/eliminar/{{ id }}" 
+              style="color: #dc3545; text-decoration: none;" 
+              onclick="return confirm('¿Seguro que deseas eliminar esta competencia?')">
+              <i class="fas fa-trash"></i> Eliminar
+           </a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

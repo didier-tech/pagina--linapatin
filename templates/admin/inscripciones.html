@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>📋 Inscripciones a Eventos</h2>
+
+{% if inscripciones %}
+
+    {% for competencia_id, grupo in inscripciones|groupby("competencia_id") %}
+
+        {% set evento = grupo[0] %}
+
+        <div class="card" style="margin-bottom:30px; padding:20px; border:1px solid #ccc; border-radius:8px;">
+
+            <h3 style="margin-bottom:10px;">
+                🏁 {{ evento.nombre_evento if evento.nombre_evento else "Evento" }}
+            </h3>
+
+            <table width="100%" border="1" cellspacing="0" cellpadding="6">
+                <thead>
+                    <tr>
+                        <th>Documento</th>
+                        <th>Nombre</th>
+                        <th>Club</th>
+                        <th>Categoría</th>
+                        <th>Modalidad</th>
+                        <th>Estado Pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in grupo %}
+                    <tr>
+                        <td>{{ i.documento }}</td>
+                        <td>{{ i.nombre }}</td>
+                        <td>{{ i.club }}</td>
+                        <td>{{ i.categoria }}</td>
+                        <td>{{ i.modalidad }}</td>
+                        <td>{{ i.estado_pago }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+    <p>No hay inscripciones registradas</p>
+{% endif %}
+
+{% endblock %}

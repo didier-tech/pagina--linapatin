@@ -1,0 +1,35 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<h2>Archivos INFO</h2>
+
+<a href="{{ url_for('admin_info_new') }}" class="btn">➕ Nuevo archivo</a>
+
+<table style="width:100%; margin-top:20px; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th style="text-align:left;">Título</th>
+            <th style="text-align:center;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for id, item in info.items() %}
+        <tr>
+            <td>{{ item.titulo }}</td>
+            <td style="text-align:center;">
+                <a href="{{ url_for('admin_info_delete', info_id=id) }}"
+                   onclick="return confirm('¿Eliminar este archivo?')"
+                   style="color:red; font-weight:bold;">
+                   Eliminar
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if not info %}
+<p>No hay archivos INFO registrados.</p>
+{% endif %}
+
+{% endblock %}

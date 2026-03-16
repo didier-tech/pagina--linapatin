@@ -1,0 +1,29 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+
+<h2 style="color: #333; margin-bottom: 25px;">📋 Inscripciones por Evento</h2>
+
+<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:25px;">
+{% for e in eventos %}
+    <div style="background: white; border-radius:15px; padding:20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: transform 0.2s; border-left: 5px solid #003366;">
+        <h3 style="margin-top:0; color: #003366;">{{ e.nombre }}</h3>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <p style="margin: 5px 0;"><strong>📅 Fecha:</strong> {{ e.fecha }}</p>
+        <p style="margin: 5px 0;"><strong>👥 Inscritos:</strong> <span style="background: #e9ecef; padding: 2px 8px; border-radius: 10px; font-weight: bold;">{{ e.total }}</span></p>
+
+        <a href="/admin/inscripciones-eventos/{{ e.id }}"
+           class="btn"
+           style="display:block; margin-top:20px; background: #003366; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+            🔍 Ver Listado Completo
+        </a>
+    </div>
+{% endfor %}
+</div>
+
+{% if not eventos %}
+    <div style="text-align: center; padding: 50px;">
+        <p style="color: #666;">No hay eventos registrados actualmente.</p>
+    </div>
+{% endif %}
+
+{% endblock %}

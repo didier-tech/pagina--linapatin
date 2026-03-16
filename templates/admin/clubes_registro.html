@@ -1,0 +1,188 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Gestión de Clubes{% endblock %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    :root {
+        --primary: #4f46e5;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #1f2937;
+        --bg: #f9fafb;
+    }
+
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg); }
+
+    .page-header { margin-bottom: 2rem; }
+    .page-title { font-weight: 700; color: var(--dark); font-size: 1.75rem; }
+
+    /* Estilo de la Tarjeta de Formulario */
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        border: 1px solid #e5e7eb;
+    }
+
+    /* Estilo de la Tabla */
+    .table-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+    }
+
+    .custom-table { width: 100%; border-collapse: collapse; }
+    .custom-table th {
+        background: #f8fafc;
+        padding: 1rem 1.5rem;
+        text-align: left;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #64748b;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    .custom-table td {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+
+    /* Badges */
+    .badge {
+        padding: 0.35rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .badge-afiliado { background: #dcfce7; color: #166534; }
+    .badge-externo { background: #f1f5f9; color: #475569; }
+
+    /* Botones Estilizados */
+    .action-btn {
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #64748b;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .btn-edit:hover { border-color: var(--primary); color: var(--primary); background: #eef2ff; }
+    .btn-key:hover { border-color: var(--warning); color: var(--warning); background: #fffbeb; }
+    .btn-delete:hover { border-color: var(--danger); color: var(--danger); background: #fef2f2; }
+
+    .input-modern {
+        padding: 0.6rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        width: 100%;
+        transition: border-color 0.2s;
+    }
+    .input-modern:focus { border-color: var(--primary); outline: none; ring: 2px var(--primary); }
+
+    .btn-main {
+        background: var(--primary);
+        color: white;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: opacity 0.2s;
+    }
+    .btn-main:hover { opacity: 0.9; cursor: pointer; }
+</style>
+
+<div class="page-header">
+    <h1 class="page-title">Directorio de Clubes</h1>
+    <p class="text-muted">Administra las entidades y sus permisos de acceso.</p>
+</div>
+
+<div class="form-card">
+    <form method="POST" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 2; min-width: 250px;">
+            <input type="text" name="nombre" class="input-modern" placeholder="Nombre del Club (Ejem: Club Patín Galeras)" required>
+        </div>
+        <div style="flex: 1; min-width: 150px;">
+            <label style="display: flex; align-items: center; cursor: pointer; font-weight: 500; color: var(--dark);">
+                <input type="checkbox" name="afiliado" value="1" style="margin-right: 0.5rem; width: 1.1rem; height: 1.1rem;">
+                Afiliado a la Liga
+            </label>
+        </div>
+        <button type="submit" class="btn-main">
+            <i class="fas fa-plus"></i> Registrar Club
+        </button>
+    </form>
+</div>
+
+<div class="table-container">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Nombre del Club</th>
+                <th>Estado de Afiliación</th>
+                <th style="text-align: right;">Acciones de Gestión</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubes %}
+            <tr>
+                <td>
+                    <div style="font-weight: 600; color: var(--dark);">{{ club.nombre }}</div>
+                    <div style="font-size: 0.75rem; color: #94a3b8;">ID: #{{ club.id }}</div>
+                </td>
+                <td>
+                    {% if club.afiliado %}
+                        <span class="badge badge-afiliado"><i class="fas fa-check-circle"></i> Afiliado</span>
+                    {% else %}
+                        <span class="badge badge-externo">Externo</span>
+                    {% endif %}
+                </td>
+                <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.5rem;">
+                        <a href="/admin/clubes-registro/editar/{{ club.id }}" class="action-btn btn-edit" title="Editar">
+                            <i class="fas fa-pen"></i>
+                        </a>
+
+                        <form action="/admin/usuarios/reset-password/{{ club.nombre }}" method="POST" 
+                              style="margin:0;" 
+                              onsubmit="return confirm('¿Restablecer clave de {{ club.nombre }} a 123456?');">
+                            <button type="submit" class="action-btn btn-key" title="Restablecer Contraseña">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </form>
+
+                        <a href="/admin/clubes-registro/eliminar/{{ club.id }}" 
+                           class="action-btn btn-delete" 
+                           title="Eliminar"
+                           onclick="return confirm('¿Eliminar definitivamente este club?')">
+                            <i class="fas fa-trash-can"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="text-align: center; padding: 3rem; color: #94a3b8;">
+                    <i class="fas fa-folder-open" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>
+                    No se encontraron clubes registrados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

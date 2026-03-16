@@ -1,0 +1,91 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="admin-header" style="margin-bottom: 25px;">
+    <h1><i class="fas fa-running"></i> Base de Deportistas</h1>
+    <p>Gestiona la información centralizada de los patinadores.</p>
+</div>
+
+<div class="card-admin" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px;">
+    <form method="GET" action="/admin/deportistas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        
+        <div>
+            <label style="display:block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">Buscar:</label>
+            <input type="text" name="q" value="{{ filtros.q or '' }}" placeholder="Nombre o Cédula..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+        </div>
+
+        <div>
+            <label style="display:block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">Club:</label>
+            <select name="club" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                <option value="">-- Todos --</option>
+                {% for cid, c in clubes.items() %}
+                    <option value="{{ cid }}" {% if filtros.club == cid %}selected{% endif %}>{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label style="display:block; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">Categoría:</label>
+            <select name="categoria" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                <option value="">-- Todas --</option>
+                {% for cat in opciones.categorias %}
+                    <option value="{{ cat }}" {% if filtros.categoria == cat %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: flex-end;">
+            <button type="submit" style="background: #007bff; color: white; border: none; padding: 11px; border-radius: 6px; cursor: pointer; flex: 1;">
+                <i class="fas fa-filter"></i>
+            </button>
+            <a href="/admin/deportistas?limpiar=true" style="background: #f1f2f6; color: #2d3436; padding: 11px; border-radius: 6px; text-decoration: none; text-align: center;">
+                <i class="fas fa-eraser"></i>
+            </a>
+            <a href="{{ url_for('exportar_deportistas', **request.args) }}" style="background: #28a745; color: white; padding: 11px; border-radius: 6px; text-decoration: none; text-align: center;">
+                <i class="fas fa-file-excel"></i>
+            </a>
+        </div>
+    </form>
+</div>
+
+<div class="card-admin" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #f8f9fa; border-bottom: 2px solid #eee; text-align: left;">
+                    <th style="padding: 15px;">Deportista</th>
+                    <th style="padding: 15px;">Documento</th>
+                    <th style="padding: 15px;">Club</th>
+                    <th style="padding: 15px;">Categoría</th>
+                    <th style="padding: 15px; text-align: center;">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in deportistas %}
+                <tr style="border-bottom: 1px solid #eee; transition: 0.2s;" class="row-hover">
+                    <td style="padding: 15px; font-weight: bold;">{{ d.nombre }}</td>
+                    <td style="padding: 15px; color: #636e72;">{{ d.documento }}</td>
+                    <td style="padding: 15px;">
+                        <span style="background: #f1f2f6; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem;">{{ d.club_nombre }}</span>
+                    </td>
+                    <td style="padding: 15px; color: #28a745; font-weight: bold;">{{ d.categoria }}</td>
+                    <td style="padding: 15px; text-align: center;">
+                        <a href="/admin/deportistas/{{ d.documento }}" style="color: #007bff; text-decoration: none; font-size: 1.1rem;">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="padding: 40px; text-align: center; color: #b2bec3;">No hay deportistas que coincidan con la búsqueda.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .row-hover:hover { background: #fdfdfd; }
+</style>
+{% endblock %}

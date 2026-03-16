@@ -1,0 +1,39 @@
+{% extends "admin/base_admin.html" %}
+{% block content %}
+
+<h2>Reporte Oficial — {{ competencia.nombre }}</h2>
+
+<p>
+Fecha del evento: {{ competencia.fecha_evento }} <br>
+Lugar: {{ competencia.lugar }}
+</p>
+
+<table width="100%" border="1" cellpadding="6">
+<tr>
+    <th>#</th>
+    <th>Deportista</th>
+    <th>Documento</th>
+    <th>Club</th>
+    <th>Categoría</th>
+    <th>Estado Pago</th>
+</tr>
+
+{% for r in reporte %}
+<tr>
+    <td>{{ loop.index }}</td>
+    <td>{{ r.nombre }}</td>
+    <td>{{ r.documento }}</td>
+    <td>{{ r.club }}</td>
+    <td>{{ r.categoria }}</td>
+    <td>{{ r.estado_pago }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/admin/competencias/{{ competencia.id }}/reporte/exportar"
+   class="btn"
+   style="margin-top:15px; display:inline-block;">
+   Exportar CSV
+</a>
+
+{% endblock %}

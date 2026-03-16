@@ -1,0 +1,70 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>📅 Gestión del Calendario Anual</h1>
+    <p>Sube el archivo PDF oficial de las competiciones del año.</p>
+</div>
+
+<div class="noticias-grid">
+    <div class="card-admin">
+        <h2>⬆️ Subir Nuevo PDF</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Selecciona el archivo (Debe ser .pdf)</label>
+                <div class="upload-container" id="drop-area" style="padding: 40px;">
+                    <p>📄 Arrastra aquí el calendario o haz clic</p>
+                    <input type="file" name="calendar" id="fileElem" accept=".pdf" required onchange="this.form.submit()">
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; color: #666;">Nota: Al subir uno nuevo, se reemplazará automáticamente el anterior.</p>
+        </form>
+    </div>
+
+    <div class="card-admin">
+        <h2>📊 Estado Actual</h2>
+        <div style="text-align: center; padding: 20px;">
+            {% if existe %}
+                <div style="color: #28a745; margin-bottom: 20px;">
+                    <span style="font-size: 4rem;">✅</span>
+                    <h3>Calendario en línea</h3>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <a href="{{ url_for('static', filename='uploads/calendario/calendario.pdf') }}" 
+                       target="_blank" class="btn-edit" style="text-decoration:none; padding: 10px 20px; background: #e7f3ff; color: #007bff; border-radius: 8px;">
+                       👁️ Ver PDF actual
+                    </a>
+                    <form method="POST" style="display: inline;">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="btn-delete" 
+                                style="border:none; padding: 10px 20px; cursor:pointer; border-radius: 8px;"
+                                onclick="return confirm('¿Seguro que quieres eliminar el calendario?')">
+                            🗑️ Eliminar
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div style="color: #dc3545; padding: 20px;">
+                    <span style="font-size: 4rem;">⚠️</span>
+                    <h3>No hay calendario subido</h3>
+                    <p>Los usuarios no podrán ver la programación anual hasta que subas un archivo.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos rápidos para consistencia */
+    .noticias-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; }
+    .card-admin { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .upload-container { border: 2px dashed #007bff; background: #f8fbff; border-radius: 10px; text-align: center; cursor: pointer; }
+    #fileElem { display: none; }
+    .btn-delete { background: #fee2e2; color: #dc2626; font-weight: bold; }
+    @media (max-width: 800px) { .noticias-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+    document.getElementById('drop-area').onclick = () => document.getElementById('fileElem').click();
+</script>
+{% endblock %}
