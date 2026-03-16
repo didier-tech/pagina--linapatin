@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <h2>MI PERFIL</h2>
+
+        <nav>
+            <a href="/perfil">🏠 Inicio</a>
+            <a href="/perfil/datos">👤 Mis datos</a>
+            <a href="/logout">🚪 Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="admin-content">
+        <header class="admin-top">
+            Deportista: {{ deportista.nombre }}
+        </header>
+
+        <section class="admin-page">
+            <h3>Eventos abiertos</h3>
+
+            {% for id, c in competencias.items() %}
+                <div style="margin-bottom:15px;">
+                    <strong>{{ c.nombre }}</strong><br>
+                    <a href="/competencias/{{ id }}/detalle">Ver evento</a>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+
+</div>
+
+</body>
+</html>

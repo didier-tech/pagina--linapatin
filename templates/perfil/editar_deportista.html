@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Editar datos personales</h2>
+
+<form method="POST">
+
+    <label>Documento</label><br>
+    <input type="text" value="{{ deportista.documento }}" disabled><br><br>
+
+    <label>Nombre</label><br>
+    <input type="text" name="nombre" value="{{ deportista.nombre }}" required><br><br>
+
+    <label>Fecha de nacimiento</label><br>
+    <input type="text" name="fecha_nacimiento"
+           value="{{ deportista.fecha_nacimiento }}"
+           placeholder="DD/MM/AAAA o DDMMYYYY"
+           required><br><br>
+
+    <label>Sexo</label><br>
+    <select name="sexo" required>
+        <option value="M" {% if deportista.sexo == "M" %}selected{% endif %}>Masculino</option>
+        <option value="F" {% if deportista.sexo == "F" %}selected{% endif %}>Femenino</option>
+    </select><br><br>
+
+    <label>Club</label><br>
+    <input type="text" name="club" value="{{ deportista.club }}" required><br><br>
+
+    <label>Modalidad</label><br>
+    <select name="modalidad" required>
+        <option value="escuela" {% if deportista.modalidad == "escuela" %}selected{% endif %}>Escuela</option>
+        <option value="recreativo" {% if deportista.modalidad == "recreativo" %}selected{% endif %}>Recreativo</option>
+        <option value="novatos" {% if deportista.modalidad == "novatos" %}selected{% endif %}>Novatos</option>
+        <option value="ligados" {% if deportista.modalidad == "ligados" %}selected{% endif %}>Ligados</option>
+    </select><br><br>
+
+    <button type="submit">Guardar cambios</button>
+    <a href="/perfil">Cancelar</a>
+
+</form>
+
+{% endblock %}
