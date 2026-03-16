@@ -1,1 +1,80 @@
+{% extends "base.html" %}
 
+{% block title %}Inicio | LINAPATIN{% endblock %}
+
+{% block content %}
+
+<section class="hero-slider">
+    {% if heroes %}
+        {% for h in heroes %}
+        <div class="hero-slide {% if not h.image %}no-image{% endif %}" id="hero-{{ h.id }}" style="background-image: url('/static/uploads/hero/{{ h.image }}'); background-size: cover; background-position: center;">
+            <div class="hero-overlay" style="display: flex; width: 100%; height: 100%; background: rgba(0,0,0,0.3); justify-content: {{ h.text_align if h.text_align else 'center' }}; align-items: {{ h.content_valign if h.content_valign else 'center' }};">
+                {% if h.title or h.subtitle %}
+                <div class="hero-text" style="padding: 40px; max-width: 80%; text-align: {{ 'center' if h.text_align == 'center' else ('left' if h.text_align == 'flex-start' else 'right') }};">
+                    {% if h.title %}<h1 style="color: {{ h.text_color if h.text_color else '#ffffff' }}; font-size: {{ h.font_size if h.font_size else '45' }}px; margin: 0;">{{ h.title }}</h1>{% endif %}
+                    {% if h.subtitle %}<p style="color: {{ h.text_color if h.text_color else '#ffffff' }}; font-size: 1.2rem; margin-top: 10px;">{{ h.subtitle }}</p>{% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="hero-slide" style="background: #333; height: 400px; display: flex; align-items: center; justify-content: center;"><h1 style="color: white;">Bienvenidos a LINAPATIN</h1></div>
+    {% endif %}
+    <button class="hero-btn prev">‹</button><button class="hero-btn next">›</button>
+</section>
+
+<section class="news" style="padding: 50px 0; background-color: #f8f9fa;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="text-align: center; margin-bottom: 35px; color: #003366; font-size: 1.8rem; font-weight: 800; text-transform: uppercase;">Noticias Recientes</h2>
+
+        {% if noticias %}
+            <div class="news-grid-fixed">
+                {% for id, n in noticias.items() %}
+                <article class="news-card-compact">
+                    <div class="card-img-container">
+                        {% if n.image %}
+                            <img src="{{ url_for('static', filename='uploads/noticias/' ~ n.image) }}">
+                        {% else %}
+                            <div class="card-img-placeholder"><i class="fas fa-image fa-2x"></i></div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <span class="card-date">📅 {{ n.created_at }}</span>
+                        <h3 class="card-title">{{ n.title }}</h3>
+                        <div class="card-text">{{ n.content | striptags | truncate(80) }}</div>
+                        <div style="margin-top: auto;">
+                            <a href="/news/{{ id }}" class="card-btn">Leer más</a>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="/noticias" style="display: inline-block; padding: 12px 30px; background: transparent; border: 2px solid #003366; color: #003366; text-decoration: none; font-weight: bold; border-radius: 8px; transition: 0.3s;">
+                    Ver Historial de Noticias
+                </a>
+            </div>
+        {% else %}
+            <p style="text-align: center; color: #999;">No hay noticias publicadas.</p>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .news-grid-fixed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .news-card-compact { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; display: flex; flex-direction: column; height: 100%; max-width: 350px; transition: 0.3s; }
+    .card-img-container { width: 100%; height: 160px; overflow: hidden; background: #f0f0f0; }
+    .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+    .card-img-placeholder { height: 160px; display: flex; align-items: center; justify-content: center; color: #ccc; }
+    .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-date { color: #888; font-size: 0.75rem; font-weight: bold; margin-bottom: 8px; }
+    .card-title { margin: 0 0 10px 0; color: #222; font-size: 1.1rem; line-height: 1.3; font-weight: 700; height: 2.8rem; overflow: hidden; }
+    .card-text { color: #666; font-size: 0.85rem; line-height: 1.5; margin-bottom: 15px; height: 3.8rem; overflow: hidden; }
+    .card-btn { display: block; text-align: center; background: #003366; color: #fff; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+    .news-card-compact:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.12); }
+    @media (max-width: 992px) { .news-grid-fixed { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .news-grid-fixed { grid-template-columns: 1fr; } .news-card-compact { max-width: 100%; } }
+</style>
+{% endblock %}
