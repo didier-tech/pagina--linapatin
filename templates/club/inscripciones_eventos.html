@@ -1,0 +1,24 @@
+{% extends "club/base_club.html" %}
+{% block content %}
+
+<h2>📋 Mis Eventos Inscritos</h2>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+{% for cid, e in eventos.items() %}
+<div style="border:1px solid #ddd; padding:20px; width:280px; border-radius:10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.05);">
+    <h3 style="color:#007bff; margin-top:0;">{{ e.evento.nombre }}</h3>
+    <p style="margin:5px 0;"><strong>👥 Inscritos:</strong> {{ e.total }}</p>
+    <p style="margin:5px 0;"><strong>💰 Total:</strong> ${{ "{:,.0f}".format(e.valor) }}</p>
+    <hr>
+    <a href="/club/inscripciones/detalle/{{ cid }}" style="color:#28a745; text-decoration:none; font-weight:bold;">
+        🔍 Ver deportistas inscritos
+    </a>
+</div>
+{% endfor %}
+</div>
+
+{% if not eventos %}
+    <p>Aún no tienes inscripciones en ningún evento.</p>
+{% endif %}
+
+{% endblock %}

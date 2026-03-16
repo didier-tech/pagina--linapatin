@@ -1,0 +1,241 @@
+{% extends "club/base_club.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary: #2563eb;
+        --success: #16a34a;
+        --warning: #ca8a04;
+        --danger: #dc2626;
+        --bg-gray: #f8fafc;
+        --border-color: #e2e8f0;
+    }
+
+    .dashboard-container {
+        padding: 20px;
+        background-color: var(--bg-gray);
+        min-height: 80vh;
+    }
+
+    .header-card {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid var(--border-color);
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+        font-size: 0.875rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-secondary { background: white; color: #475569; border: 1px solid #d1d5db; }
+    .btn-secondary:hover { background: #f3f4f6; }
+
+    .btn-outline { color: var(--primary); border: 1px solid var(--primary); background: transparent; }
+    .btn-outline:hover { background: #eff6ff; }
+
+    /* Estilo Tabla Excel Moderno */
+    .table-wrapper {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    .modern-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.9rem;
+    }
+
+    .modern-table th {
+        background: #f1f5f9;
+        padding: 16px;
+        color: #475569;
+        font-weight: 600;
+        border-bottom: 2px solid var(--border-color);
+        white-space: nowrap;
+    }
+
+    .modern-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border-color);
+        vertical-align: middle;
+    }
+
+    .modern-table tr:hover { background: #f8fafc; }
+
+    /* Filtros Integrados */
+    .filter-control {
+        display: block;
+        width: 100%;
+        padding: 6px 10px;
+        margin-top: 8px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        color: #1e293b;
+        background-color: white;
+    }
+
+    .filter-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Estados Badges */
+    .badge {
+        padding: 4px 10px;
+        border-radius: 9999px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .badge-pagado { background: #dcfce7; color: #166534; }
+    .badge-pendiente { background: #fef9c3; color: #854d0e; }
+    .badge-rechazado { background: #fee2e2; color: #991b1b; }
+
+    .total-row {
+        background: #1e293b;
+        color: white;
+        font-weight: 700;
+    }
+
+    .empty-state {
+        padding: 60px;
+        text-align: center;
+        color: #94a3b8;
+    }
+</style>
+
+<div class="dashboard-container">
+    
+    <div class="header-card">
+        <div>
+            <h1 style="margin: 0 0 4px 0; font-size: 1.5rem; color: #0f172a;">{{ competencia.nombre }}</h1>
+            <p style="margin: 0; color: #64748b;">Gestión y seguimiento de deportistas inscritos</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+            <a href="/club/inscripciones/detalle/{{ competencia.id }}" class="btn btn-secondary">
+                <span>🧹</span> Limpiar Filtros
+            </a>
+            <a href="/club/inscripciones" class="btn btn-secondary">
+                <span>⬅</span> Volver
+            </a>
+        </div>
+    </div>
+
+    <form method="GET">
+        <div class="table-wrapper">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th style="width: 250px;">
+                            Nombre / Documento
+                            <input type="text" name="q" class="filter-control" placeholder="Buscar..." value="{{ filtros_data.activos.q }}" onchange="this.form.submit()">
+                        </th>
+                        <th>
+                            Categoría
+                            <select name="categoria" class="filter-control" onchange="this.form.submit()">
+                                <option value="">(Todas)</option>
+                                {% for c in filtros_data.cats %}<option value="{{c}}" {% if filtros_data.activos.cat == c %}selected{% endif %}>{{c}}</option>{% endfor %}
+                            </select>
+                        </th>
+                        <th>
+                            Modalidad
+                            <select name="modalidad" class="filter-control" onchange="this.form.submit()">
+                                <option value="">(Todas)</option>
+                                {% for m in filtros_data.mods %}<option value="{{m}}" {% if filtros_data.activos.mod == m %}selected{% endif %}>{{m}}</option>{% endfor %}
+                            </select>
+                        </th>
+                        <th>
+                            Sexo
+                            <select name="sexo" class="filter-control" onchange="this.form.submit()">
+                                <option value="">(Todos)</option>
+                                {% for s in filtros_data.sexs %}<option value="{{s}}" {% if filtros_data.activos.sex == s %}selected{% endif %}>{{s}}</option>{% endfor %}
+                            </select>
+                        </th>
+                        <th>
+                            Estado de Pago
+                            <select name="estado" class="filter-control" onchange="this.form.submit()">
+                                <option value="">(Todos)</option>
+                                <option value="pagado" {% if filtros_data.activos.est == 'pagado' %}selected{% endif %}>PAGADO</option>
+                                <option value="pendiente" {% if filtros_data.activos.est == 'pendiente' %}selected{% endif %}>PENDIENTE</option>
+                                <option value="rechazado" {% if filtros_data.activos.est == 'rechazado' %}selected{% endif %}>RECHAZADO</option>
+                            </select>
+                        </th>
+                        <th style="text-align: center;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in inscripciones %}
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600; color: #1e293b;">{{ i.nombre }}</div>
+                            <div style="font-size: 0.75rem; color: #64748b;">CC: {{ i.documento }}</div>
+                        </td>
+                        <td>{{ i.categoria }}</td>
+                        <td>{{ i.modalidad }}</td>
+                        <td>{{ i.sexo }}</td>
+                        <td style="text-align: center;">
+                            {% if i.estado_pago == 'pagado' %}
+                                <span class="badge badge-pagado">● PAGADO</span>
+                            {% elif i.estado_pago == 'rechazado' %}
+                                <span class="badge badge-rechazado">● RECHAZADO</span>
+                            {% else %}
+                                <span class="badge badge-pendiente">● PENDIENTE</span>
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="/club/inscripciones/eliminar/{{ i.id }}" 
+                               onclick="return confirm('¿Está seguro de eliminar esta inscripción?')"
+                               style="color: #ef4444; font-size: 1.1rem; padding: 5px;" 
+                               title="Eliminar Inscripción">
+                                🗑️
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <div style="font-size: 3rem; margin-bottom: 16px;">🔍</div>
+                            <p style="margin: 0; font-size: 1.1rem;">No se encontraron deportistas registrados.</p>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9rem;">Prueba limpiando los filtros o realizando una nueva búsqueda.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% if inscripciones %}
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="4" style="text-align: right; padding: 16px; border-radius: 0 0 0 12px;">TOTAL SEGÚN FILTROS:</td>
+                        <td style="text-align: center; padding: 16px;">${{ "{:,.0f}".format(total_dinero) }}</td>
+                        <td style="border-radius: 0 0 12px 0;"></td>
+                    </tr>
+                </tfoot>
+                {% endif %}
+            </table>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "club/base_club.html" %}
+{% block content %}
+
+<h2>📄 Ficha completa del deportista</h2>
+
+<table border="1" cellpadding="8" width="60%">
+    <tr><th>Documento</th><td>{{ d.documento }}</td></tr>
+    <tr><th>Nombre</th><td>{{ d.nombre }}</td></tr>
+    <tr><th>Fecha de nacimiento</th><td>{{ d.fecha_nacimiento }}</td></tr>
+    <tr><th>Sexo</th><td>{{ d.sexo }}</td></tr>
+    <tr><th>Modalidad</th><td>{{ d.modalidad }}</td></tr>
+    <tr><th>Teléfono</th><td>{{ d.telefono or "—" }}</td></tr>
+    <tr><th>Correo</th><td>{{ d.correo or "—" }}</td></tr>
+
+    {% if d.acudiente_nombre %}
+    <tr><th>Acudiente</th><td>{{ d.acudiente_nombre }}</td></tr>
+    {% endif %}
+
+    {% if d.acudiente_telefono %}
+    <tr><th>Teléfono acudiente</th><td>{{ d.acudiente_telefono }}</td></tr>
+    {% endif %}
+</table>
+
+<br>
+
+<a href="/club/deportistas/editar/{{ d.documento }}" class="btn">
+    ✏️ Editar datos
+</a>
+
+{% endblock %}

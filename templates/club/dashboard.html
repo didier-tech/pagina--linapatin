@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.dashboard {
+    margin-top: 30px;
+    padding-bottom: 50px;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+.card {
+    background: #f4f6f8;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    transition: transform 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #0a58ca;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+.card a:hover {
+    background: rgba(10, 88, 202, 0.1);
+}
+
+/* Tarjeta especial de seguridad */
+.card-security {
+    border-top: 5px solid #dc3545;
+}
+.card-security a {
+    color: #dc3545;
+}
+.card-security a:hover {
+    background: rgba(220, 53, 69, 0.1);
+}
+</style>
+
+<div class="dashboard container">
+
+    <div style="margin-bottom: 30px; border-left: 5px solid #28a745; padding-left: 20px;">
+        <h1 style="margin: 0;">🏁 Bienvenido Club {{ nombre_club }}</h1>
+        <p style="color:#555; margin: 5px 0 0 0;">Panel de administración institucional</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>👥 Deportistas</h3>
+            <p>{{ total_deportistas }}</p>
+            <a href="/club/deportistas">Ver deportistas</a>
+        </div>
+
+        <div class="card">
+            <h3>📋 Inscripciones</h3>
+            <p>{{ total_inscripciones }}</p>
+            <a href="/club/inscripciones">Ver inscripciones</a>
+        </div>
+
+        <div class="card">
+            <h3>🏆 Eventos</h3>
+            <p>Activos</p>
+            <a href="/eventos">Ver competencias</a>
+        </div>
+
+        <div class="card card-security">
+            <h3>🔐 Seguridad</h3>
+            <p style="font-size: 16px; color: #666;">Acceso y Clave</p>
+            <a href="/perfil/cambiar-password">Cambiar Contraseña</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
