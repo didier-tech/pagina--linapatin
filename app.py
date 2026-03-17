@@ -1,5 +1,5 @@
 
-import os
+mport os
 import psycopg2
 from flask import Flask, render_template
 
@@ -19,7 +19,11 @@ def index():
         conn = get_db()
         cur = conn.cursor()
 
-        cur.execute("SELECT id, titulo, contenido, fecha FROM noticias ORDER BY fecha DESC")
+        cur.execute("""
+            SELECT id, titulo, contenido, fecha 
+            FROM noticias 
+            ORDER BY fecha DESC
+        """)
         datos = cur.fetchall()
 
         cur.close()
@@ -35,13 +39,12 @@ def index():
                 "image": None
             })
 
-        except Exception as e:
-            print("ERROR:",e)
-            noticias = []
+    except Exception as e:
+        print("ERROR BD:", e)
+        noticias = []
 
-        return render_template("index.html", noticias=noticias, heroes=[])
+    return render_template("index.html", noticias=noticias, heroes=[])
 
-    
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(debug=True)
