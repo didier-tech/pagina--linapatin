@@ -35,11 +35,13 @@ def index():
                 "image": None
             })
 
+        except Exception as e:
+            print("ERROR:",e)
+            noticias = []
+
         return render_template("index.html", noticias=noticias, heroes=[])
 
-    except Exception as e:
-        import traceback
-        return f"<pre>{traceback.format_exc()}</pre>"
+    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
