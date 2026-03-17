@@ -17,12 +17,23 @@ def index():
         cur = conn.cursor()
 
         cur.execute("SELECT titulo, contenido FROM noticias ORDER BY fecha DESC")
-        noticias = cur.fetchall()
+        noticias_db = cur.fetchall()
 
-        cur.close()
+             cur.close()
         conn.close()
+        # convertir a formato tipo JSON (como antes)
+        noticias = []
+        for n in noticias_db:
+            noticias.append({
+                "id": n[0],
+                "title": n[1],
+                "content": n[2],
+                "created_at": n[3]
+            })
+                
 
-        return str(noticias)
+
+        return render_tempaltes("index.html", noticias=noticias)
 
     except Exception as e:
         print("ERROR:", e)
