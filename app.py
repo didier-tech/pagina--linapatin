@@ -8,25 +8,25 @@ app = Flask(__name__)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def get_db():
-return psycopg2.connect(DATABASE_URL)
+    return psycopg2.connect(DATABASE_URL) # ← ESTA LÍNEA VA INDENTADA
 
 @app.route("/")
 def index():
-try:
-conn = get_db()
-cur = conn.cursor()
+    try:
+        conn = get_db()
+        cur = conn.cursor()
 
-cur.execute("SELECT titulo, contenido FROM noticias ORDER BY fecha DESC")
-noticias = cur.fetchall()
+        cur.execute("SELECT titulo, contenido FROM noticias ORDER BY fecha DESC")
+        noticias = cur.fetchall()
 
-cur.close()
-conn.close()
+        cur.close()
+        conn.close()
 
-return str(noticias)
+        return str(noticias)
 
-except Exception as e:
-print("ERROR:", e)
-return "Error conectando a la base de datos"
+    except Exception as e:
+        print("ERROR:", e)
+        return "Error en la base de datos"
 
 if __name__ == "__main__":
 port = int(os.environ.get("PORT", 10000))
