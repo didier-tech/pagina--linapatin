@@ -19,7 +19,7 @@ def index():
         cur.execute("SELECT titulo, contenido FROM noticias ORDER BY fecha DESC")
         noticias_db = cur.fetchall()
 
-             cur.close()
+        cur.close()
         conn.close()
         # convertir a formato tipo JSON (como antes)
         noticias = []
@@ -33,7 +33,7 @@ def index():
                 
 
 
-        return render_tempaltes("index.html", noticias=noticias)
+        return render_template("index.html", noticias=noticias)
 
     except Exception as e:
         print("ERROR:", e)
