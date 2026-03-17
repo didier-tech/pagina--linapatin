@@ -1,8 +1,2 @@
 flask
-pandas
-pillow
-openpyxl
-gunicorn
-flask_sqlalchemy
-flask_login
 psycopg2-binary
