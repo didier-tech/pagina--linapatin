@@ -88,7 +88,7 @@ style="text-align:{{ 'center' if h.text_align == 'center' else ('left' if h.text
 
 <div class="news-grid">
 
-{% for id, n in noticias.items() %}
+{% for n in noticias %}
 
 <article class="news-card">
 
@@ -118,7 +118,7 @@ style="text-align:{{ 'center' if h.text_align == 'center' else ('left' if h.text
 {{ n.content | striptags | truncate(110) }}
 </p>
 
-<a href="/news/{{ id }}" class="news-btn">
+<a href="/news/{{ n.id }}" class="news-btn">
 Leer noticia
 </a>
 
