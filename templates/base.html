@@ -13,7 +13,6 @@
 <style>
 
 /* ----------- RESET ----------- */
-
 *{
 margin:0;
 padding:0;
@@ -27,7 +26,6 @@ color:#333;
 }
 
 /* ----------- TOP BAR ----------- */
-
 .top-bar{
 background:#0d2d5e;
 color:white;
@@ -53,7 +51,6 @@ opacity:1;
 }
 
 /* ----------- HEADER ----------- */
-
 header{
 background:white;
 box-shadow:0 2px 10px rgba(0,0,0,0.08);
@@ -63,7 +60,6 @@ z-index:999;
 }
 
 /* ----------- NAV ----------- */
-
 .container{
 width:92%;
 max-width:1200px;
@@ -100,7 +96,6 @@ color:#003366;
 }
 
 /* ----------- DROPDOWN ----------- */
-
 .nav-item.dropdown{
 position:relative;
 }
@@ -131,7 +126,6 @@ background:#f2f2f2;
 }
 
 /* ----------- BUTTON ----------- */
-
 .btn{
 background:#16a34a;
 color:white !important;
@@ -147,7 +141,6 @@ transform:translateY(-1px);
 }
 
 /* ----------- BADGES ----------- */
-
 .badge-rol{
 padding:3px 8px;
 border-radius:6px;
@@ -162,13 +155,11 @@ margin-left:6px;
 .badge-rol.club{background:#92400e;color:white;}
 
 /* ----------- FLASH ----------- */
-
 .flash-messages{
 margin-top:20px;
 }
 
 /* ----------- FOOTER ----------- */
-
 footer{
 margin-top:60px;
 background:#0d2d5e;
@@ -190,7 +181,6 @@ opacity:0.8;
 }
 
 /* ----------- MOBILE ----------- */
-
 .mobile-toggle{
 display:none;
 background:none;
@@ -228,19 +218,17 @@ display:block;
 <body>
 
 <!-- TOP BAR -->
-
 <div class="top-bar">
 <div class="container">
-
 <div class="top-links">
 
 {% if session.get("user") %}
-
-{% set urrol = session.user.rol or session.user.role %}
+{% set user = session.get("user") %}
+{% set urrol = user.get("rol") or user.get("role") %}
 
 <span>
 <i class="fas fa-user-circle"></i>
-{{ session.user.usuario }}
+{{ user.get("usuario") }}
 <span class="badge-rol {{ urrol }}">{{ urrol }}</span>
 </span>
 
@@ -253,24 +241,18 @@ display:block;
 {% endif %}
 
 <a href="/perfil/cambiar-password"><i class="fas fa-key"></i></a>
-
 <a href="/logout" style="color:#ffbaba"><i class="fas fa-sign-out-alt"></i></a>
 
 {% else %}
-
 <a href="/login"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
-
 {% endif %}
 
 </div>
-
 </div>
 </div>
 
 <!-- HEADER -->
-
 <header>
-
 <div class="container nav">
 
 <a href="/" class="logo">
@@ -283,37 +265,28 @@ display:block;
 
 <div class="nav-item dropdown">
 <a href="#">Liga ▾</a>
-
 <div class="dropdown-menu">
 <a href="/liga/comite-ejecutivo">Comité Ejecutivo</a>
 <a href="/liga/comisiones">Comisiones</a>
 <a href="/liga/informacion-general">Información General</a>
 </div>
-
 </div>
 
 <div class="nav-item dropdown">
-
-<a href="{{ url_for('eventos_publicos') }}">Eventos ▾</a>
-
+<a href="#">Eventos ▾</a>
 <div class="dropdown-menu">
-<a href="{{ url_for('eventos_publicos') }}">Próximas Competencias</a>
+<a href="/eventos">Próximas Competencias</a>
 <a href="/resultados">🏆 Resultados</a>
 </div>
-
 </div>
 
 <a href="/noticias">Noticias</a>
 <a href="/calendario">Calendario</a>
 
-{% if session.get("user") and (session.user.rol or session.user.role) == "deportista" %}
-
+{% if session.get("user") and (session.get("user").get("rol") or session.get("user").get("role")) == "deportista" %}
 <a href="/perfil" class="btn" style="background:#003366;">Mi Panel</a>
-
 {% else %}
-
 <a href="/afiliate" class="btn">Afíliate</a>
-
 {% endif %}
 
 </nav>
@@ -323,34 +296,21 @@ display:block;
 </button>
 
 </div>
-
 </header>
 
 <!-- CONTENIDO -->
-
 <main>
 
 <div class="container flash-messages">
 
 {% with messages = get_flashed_messages(with_categories=true) %}
-
 {% if messages %}
-
 {% for category, message in messages %}
-
-<div class="alert alert-{{ category }}"
-style="padding:14px;border-radius:8px;margin-bottom:15px;background:{% if category=='success' %}#d4edda{% else %}#f8d7da{% endif %};color:{% if category=='success' %}#155724{% else %}#721c24{% endif %};">
-
-<i class="fas {% if category=='success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
-
+<div style="padding:14px;border-radius:8px;margin-bottom:15px;background:{% if category=='success' %}#d4edda{% else %}#f8d7da{% endif %};color:{% if category=='success' %}#155724{% else %}#721c24{% endif %};">
 {{ message }}
-
 </div>
-
 {% endfor %}
-
 {% endif %}
-
 {% endwith %}
 
 </div>
@@ -360,23 +320,17 @@ style="padding:14px;border-radius:8px;margin-bottom:15px;background:{% if catego
 </main>
 
 <!-- FOOTER -->
-
 <footer>
-
 <div class="container footer-content">
-
-<div class="footer-contact">
+<div>
 <p>📞 (+57) 323 591 7510</p>
 <p>📍 Carrera 9 # 15-29 – Pasto</p>
 <p>✉️ ligapatinajenarino@gmail.com</p>
 </div>
-
 <p class="footer-copy">
 © 2026 Liga Nariñense de Patinaje
 </p>
-
 </div>
-
 </footer>
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
