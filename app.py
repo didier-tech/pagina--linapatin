@@ -19,6 +19,8 @@ def index():
     cur.close()
     conn.close()
     return str(noticias)
+    def home():
+        return "LINAPATIN FUNCIONANDO"
 
 if __name__ == "__main__":
     app.run(debug=True)
