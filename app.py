@@ -33,7 +33,7 @@ def index():
                 
 
 
-        return render_template("index.html", noticias=noticias)
+        return render_template("index.html", noticias=noticias, heroes[])
 
     except Exception as e:
         print("ERROR:", e)
